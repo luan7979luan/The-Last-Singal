@@ -6,6 +6,9 @@ public class Bullet : MonoBehaviour
 {
     private Rigidbody bulletRigidbody;
 
+    [SerializeField] private Transform vfxHit;
+    [SerializeField] private Transform vfxMiss; 
+
     private void Awake()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
@@ -19,6 +22,16 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.GetComponent<BulletTarget>() != null)
+        {
+            // Hit target
+            Instantiate(vfxHit, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            // Hit something else
+            Instantiate(vfxMiss, transform.position, Quaternion.identity);
+        }
         Destroy(gameObject);
     }
 }
