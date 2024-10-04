@@ -614,6 +614,52 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &104507254
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 104507256}
+  - component: {fileID: 104507255}
+  m_Layer: 0
+  m_Name: Slow motion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &104507255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104507254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 706415808f0f4cf499d64f0b42bc0471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slowdownto: 0.5
+  Slowdowntime: 5
+--- !u!4 &104507256
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104507254}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.6111572, y: 1.3665417, z: 19.143902}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &108200272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6766,3 +6812,4 @@ SceneRoots:
   - {fileID: 1215364803}
   - {fileID: 1202106376}
   - {fileID: 1643048710}
+  - {fileID: 104507256}
