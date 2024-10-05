@@ -3,61 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnController : MonoBehaviour
-{
-    public float radius;
-    public GameObject prefab;
-    public int max;
-    public GameObject Player;
-    public int count = 0;
-    public Collider[] colliders;
-    public float delay = 3;
-    float timer;
-    // Start is called before the first frame update
+
+using UnityEngine.UIElements;
+
+
+public class SpawnController : MonoBehaviour{
+
+
+  public GameObject enemyPrefab; // Kéo prefab kẻ thù vào đây trong Inspector
+    public Transform player; // Kéo transform của người chơi vào đây
+    public float spawnRadius = 10f; // Bán kính để spawn kẻ thù
+    public float spawnDistance = 15f; // Khoảng cách xa hơn từ người chơi để spawn
+    public int enemyCount = 5; // Số lượng kẻ thù cần spawn
+
     void Start()
     {
-        CheckPositionInsideCollider();
+        SpawnEnemies();
     }
 
-    // Update is called once per frame
-    void Update()
-    {   
-        timer += Time.deltaTime;
-        if(timer > delay)
+    void SpawnEnemies()
+    {
+        for (int i = 0; i < enemyCount; i++)
         {
-        StartCoroutine (spawn());
-        timer -= delay;
-        }
-    }
-    IEnumerator spawn()
-    {
-        Debug.Log("1");
-        if(count < max)
-        {   
-            Debug.Log("2");
-            Vector3 random = new Vector3(UnityEngine.Random.Range(  -radius,  radius), UnityEngine.Random.Range( -radius, radius), UnityEngine.Random.Range(  -radius, radius));
-            Boolean inside = false;
-            for(int i = 0; i < colliders.Length; i++)
-            {
-                if(colliders[i].bounds.Contains(random))
-                {
-                inside = true;
-                }
-            }
-            if(!inside)
-            {
-                Instantiate(prefab,  random , Quaternion.identity);
-                count++;
-            }
+            float randomAngle = UnityEngine.Random.Range(0f, 360f);
+            float randomDistance = spawnDistance + UnityEngine.Random.Range(0f, spawnRadius);
             
+            Vector3 spawnPosition = new Vector3(
+                player.position.x + randomDistance * Mathf.Cos(randomAngle * Mathf.Deg2Rad),
+                player.position.y, // Giữ y của người chơi
+                player.position.z + randomDistance * Mathf.Sin(randomAngle * Mathf.Deg2Rad) // Chuyển sang trục Z trong không gian 3D
+            );
+
+            GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+            enemy.GetComponent<Enemy>().SetTarget(player); // Gọi hàm SetTarget trong script của kẻ thù
         }
-        Debug.Log("5");
-        yield return null;
     }
-
-    private void CheckPositionInsideCollider()
-    {
-        colliders = Physics.OverlapSphere(transform.position, radius);
-    }
-
 }

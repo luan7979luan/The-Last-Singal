@@ -6023,7 +6023,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1639976114}
   m_CullTransparentMesh: 1
---- !u!1 &1643048708
+--- !u!1 &1679416819
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6031,44 +6031,43 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1643048710}
-  - component: {fileID: 1643048709}
+  - component: {fileID: 1679416821}
+  - component: {fileID: 1679416820}
   m_Layer: 0
-  m_Name: 'Spawn '
+  m_Name: Spawn enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1643048709
+--- !u!114 &1679416820
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1643048708}
+  m_GameObject: {fileID: 1679416819}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da250a3fa04061b42b75f9d08b8b6ab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 5
-  prefab: {fileID: 9069119601810445090, guid: 468cec12fb62d6b48bd4f109c9825d4d, type: 3}
-  max: 50
-  Player: {fileID: 0}
-  count: 0
-  colliders: []
-  delay: 0
---- !u!4 &1643048710
+  enemyPrefab: {fileID: 6969487929517679844, guid: 92b882a8d30982647a9ca5f16786f97c,
+    type: 3}
+  player: {fileID: 3893294199110720862}
+  spawnRadius: 5
+  spawnDistance: 15
+  enemyCount: 5
+--- !u!4 &1679416821
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1643048708}
+  m_GameObject: {fileID: 1679416819}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.758452, y: 31.234964, z: 23.624056}
+  m_LocalPosition: {x: 306.19427, y: 20.950184, z: 216.17865}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7577,8 +7576,8 @@ SceneRoots:
   - {fileID: 668315033}
   - {fileID: 1215364803}
   - {fileID: 1202106376}
-  - {fileID: 1643048710}
   - {fileID: 104507256}
   - {fileID: 661363916}
   - {fileID: 358894588}
   - {fileID: 1509267396}
+  - {fileID: 1679416821}
