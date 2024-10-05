@@ -80,6 +80,7 @@ GameObject:
   - component: {fileID: 6597685081496800976}
   - component: {fileID: 3612643332844864607}
   - component: {fileID: 6679566246166800148}
+  - component: {fileID: 8612473261092226373}
   m_Layer: 8
   m_Name: PlayerArmature
   m_TagString: Player
@@ -169,6 +170,7 @@ MonoBehaviour:
   SprintSpeed: 5.335
   RotationSmoothTime: 0.12
   SpeedChangeRate: 10
+  Sensitivity: 1
   LandingAudioClip: {fileID: 8300000, guid: ff697d3070687ce4583faa0561a145a2, type: 3}
   FootstepAudioClips:
   - {fileID: 8300000, guid: 72f526a6a9890f643a88e85a61c86c8a, type: 3}
@@ -230,6 +232,8 @@ MonoBehaviour:
   look: {x: 0, y: 0}
   jump: 0
   sprint: 0
+  aim: 0
+  shoot: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
@@ -345,10 +349,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   liveTime: 2
-  refrashRate: 0.05
+  refreshRate: 0.05
   meshDestorytime: 3
   shadowPosition: {fileID: 9174935388022705533}
-  shortKey: 304
+  shortCutKey: 304
   ghostShader: {fileID: -6465566751694194690, guid: 1fd556bcf0d3f3842bebddc44dda390f,
     type: 3}
   ghostMaterial: {fileID: 2100000, guid: 38caf197d9c76fa42afb2ce724c4143b, type: 2}
@@ -377,6 +381,27 @@ MonoBehaviour:
   minDis: 5
   disChangeSpeed: 0.25
   cinemachineVirtualCamera: {fileID: 1867988430490113871}
+--- !u!114 &8612473261092226373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344517732381203992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0db79bdef1648e47b23d7efe19b7cb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aimVirtualCamera: {fileID: 0}
+  normalSensitivity: 0
+  aimSensitivity: 0
+  aimColliderLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  debugTransform: {fileID: 0}
+  Bullet: {fileID: 0}
+  spawnBulletPosition: {fileID: 0}
 --- !u!1 &364742287245677605
 GameObject:
   m_ObjectHideFlags: 0
