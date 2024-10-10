@@ -5,18 +5,34 @@ using UnityEngine.AI;
 
 public class RobotController : MonoBehaviour
 {
-    public Transform player;        // Reference to the player
-    private NavMeshAgent agent;     // Reference to the NavMeshAgent component
-
+    public GameObject Targetplayer;
+    private NavMeshAgent agent;
+    private Animator animator;
+    // Start is called before the first frame update
     void Start()
     {
-        // Get the NavMeshAgent component on this enemy
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+        agent.speed = (Random.Range(1f, 3f));
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        // Set the agent's destination to the player's position every frame
-        agent.SetDestination(player.position);
+        Move();
+
+    }
+
+    private void Move()
+    {
+        if (Targetplayer != null&& Vector3.Distance(transform.position, Targetplayer.transform.position) > agent.stoppingDistance)
+        {
+            agent.SetDestination(Targetplayer.transform.position);
+            animator.SetFloat("Velocity", 0.5f);
+        }
+        else
+        {
+            agent.SetDestination(transform.position);
+            animator.SetFloat("Velocity", 0f);  
+        }
     }
 }
