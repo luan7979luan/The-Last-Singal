@@ -1,29 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public float moveSpeed = 2f; // Tốc độ di chuyển của kẻ thù
-    private Transform target; // Biến lưu trữ vị trí của người chơi
+    public Transform player;         // Reference to the player's transform
+    private NavMeshAgent agent;     // Reference to the NavMeshAgent component
+
+    void Start()
+    {
+        // Get the NavMeshAgent component on this enemy
+        agent = GetComponent<NavMeshAgent>();
+    }
 
     void Update()
     {
-        if (target != null)
-        {
-            MoveTowardsPlayer();
-        }
-    }
-
-    public void SetTarget(Transform player)
-    {
-        target = player;
-    }
-
-    void MoveTowardsPlayer()
-    {
-        // Tính toán khoảng cách và hướng di chuyển
-        Vector3 direction = (target.position - transform.position).normalized;
-        transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+        // Set the agent's destination to the player's position every frame
+        agent.SetDestination(player.position);
     }
 }

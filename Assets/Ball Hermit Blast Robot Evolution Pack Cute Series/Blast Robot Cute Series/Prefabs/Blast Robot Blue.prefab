@@ -920,7 +920,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7778641194408902238}
   - component: {fileID: 4400971351864353828}
-  - component: {fileID: 1028412738179002562}
+  - component: {fileID: -4899223296612942658}
   m_Layer: 0
   m_Name: Blast Robot Blue
   m_TagString: Untagged
@@ -971,7 +971,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1028412738179002562
+--- !u!114 &-4899223296612942658
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -983,7 +983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0573010cd57c646ae75f76b6e46326, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  player: {fileID: 0}
 --- !u!1 &7594710305841382365
 GameObject:
   m_ObjectHideFlags: 0

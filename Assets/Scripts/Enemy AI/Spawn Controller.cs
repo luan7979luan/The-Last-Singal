@@ -35,7 +35,8 @@ public class SpawnController : MonoBehaviour{
             );
 
             GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
-            enemy.GetComponent<Enemy>().SetTarget(player); // Gọi hàm SetTarget trong script của kẻ thù
+
+            
         }
     }
 }
