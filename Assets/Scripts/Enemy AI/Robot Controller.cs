@@ -33,6 +33,12 @@ public class RobotController : MonoBehaviour
         {
             agent.SetDestination(transform.position);
             animator.SetFloat("Velocity", 0f);  
+
+            // trigger attack
+            if(Targetplayer != null )
+            {
+                animator.SetTrigger("Attack");
+            }
         }
     }
 }
