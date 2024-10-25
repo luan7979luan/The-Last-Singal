@@ -21,14 +21,14 @@ public class CharacterAiming : MonoBehaviour
     }
     void FixedUpdate()
     {
-        float yawCamera = mainCamera.transform.rotation.eulerAngles.y;
+        float yawCamera = mainCamera.transform.eulerAngles.y;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yawCamera, 0), turnSpeed * Time.fixedDeltaTime);
     }
     private void Update()
     {
         if (aimLayer)
         {
-            if (Input.GetButton("Fire2"))
+            if (Input.GetMouseButton(1))
             {
                 aimLayer.weight += Time.deltaTime / aimDuration;
             }
@@ -42,11 +42,7 @@ public class CharacterAiming : MonoBehaviour
         {
             weapon.StartFiring();
         }
-        if (weapon.isFiring)
-        {
-            weapon.UpdateFiring(Time.deltaTime);
-        }
-        if (Input.GetButtonUp("Fire1"))
+        if(Input.GetButtonDown("Fire1"))
         {
             weapon.StopFiring();
         }
