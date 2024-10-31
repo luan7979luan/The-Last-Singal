@@ -12,6 +12,7 @@ public class RobotControllerMelee : MonoBehaviour
     public float attackRange = 2f;     // Tầm cận chiến của quái vật
     public float attackDelay = 2f;     // Khoảng thời gian giữa các lần tấn công cận chiến
     private float attackTimer;
+    private bool isAttacking = false;  // Biến trạng thái để biết có đang tấn công hay không
 
     void Start()
     {
@@ -34,9 +35,16 @@ public class RobotControllerMelee : MonoBehaviour
 
             if (distanceToPlayer > attackRange)
             {
+                // Nếu đang tấn công nhưng người chơi ra khỏi tầm đánh, ngừng tấn công và di chuyển
+                if (isAttacking)
+                {
+                    isAttacking = false;
+                    animator.ResetTrigger("Attack");
+                    animator.SetFloat("Velocity", 0.1f);  // Kích hoạt animation di chuyển
+                }
+                
                 // Di chuyển về phía người chơi
                 agent.SetDestination(Targetplayer.transform.position);
-                animator.SetFloat("Velocity", 0.1f);  // Kích hoạt animation di chuyển
             }
             else
             {
@@ -53,6 +61,7 @@ public class RobotControllerMelee : MonoBehaviour
         attackTimer -= Time.deltaTime;
         if (attackTimer <= 0f)
         {
+            isAttacking = true;
             animator.SetTrigger("Attack");  // Kích hoạt animation đòn tấn công cận chiến
             // Logic xử lý gây sát thương nếu người chơi nằm trong tầm
             // Ví dụ: Targetplayer.GetComponent<PlayerHealth>().TakeDamage(attackDamage);

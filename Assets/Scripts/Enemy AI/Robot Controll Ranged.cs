@@ -43,7 +43,7 @@ public class RobotController : MonoBehaviour
         {
             // Di chuyển về phía người chơi
             agent.SetDestination(Targetplayer.transform.position);
-            animator.SetFloat("Velocity", 0.1f);  // Kích hoạt animation di chuyển
+            animator.SetFloat("Velocity", 0.5f);  // Kích hoạt animation di chuyển
         }
         else
         {
@@ -51,9 +51,46 @@ public class RobotController : MonoBehaviour
             agent.SetDestination(transform.position);
             animator.SetFloat("Velocity", 0f);  // Ngừng animation di chuyển
 
-  
-}
+            // Quay về phía người chơi và bắn
+            RotateTowardsPlayer();
+            shootatplayer();
+        }
     }
 }
 
+    void shootatplayer()
+{
+    bullettime += Time.deltaTime;
+
+    if (bullettime >= timer)
+    {
+        // Kích hoạt animation tấn công
+        animator.SetTrigger("Attack");
+        bullettime = 0;
+
+        // Xác định hướng bắn về phía người chơi
+        Vector3 directionToPlayer = (Targetplayer.transform.position - firePoint.position).normalized;
+
+        // Xoay firePoint theo hướng của người chơi
+        firePoint.rotation = Quaternion.LookRotation(directionToPlayer);
+
+        // Tạo ra viên đạn tại vị trí firePoint và hướng về phía người chơi
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+
+        // Nếu bạn muốn thiết lập tốc độ hoặc di chuyển viên đạn
+        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+        if (bulletRb != null)
+        {
+            bulletRb.velocity = directionToPlayer * 20f; // 20f là tốc độ, bạn có thể thay đổi
+        }
+    }
+}
+
+    // Quay mặt quái vật về phía người chơi
+    void RotateTowardsPlayer()
+    {
+        Vector3 direction = (Targetplayer.transform.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+    }
 }
