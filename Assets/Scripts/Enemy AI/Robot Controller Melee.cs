@@ -9,10 +9,9 @@ public class RobotControllerMelee : MonoBehaviour
     private NavMeshAgent agent;
     private Animator animator;
 
-    public float attackRange = 2f;     // Tầm cận chiến của quái vật
-    public float attackDelay = 2f;     // Khoảng thời gian giữa các lần tấn công cận chiến
+    public float attackRange = 2f;   // Tầm tấn công cận chiến của quái vật
+    public float attackDelay = 2f;   // Khoảng thời gian giữa các lần tấn công
     private float attackTimer;
-    private bool isAttacking = false;  // Biến trạng thái để biết có đang tấn công hay không
 
     void Start()
     {
@@ -35,37 +34,44 @@ public class RobotControllerMelee : MonoBehaviour
 
             if (distanceToPlayer > attackRange)
             {
-                // Nếu đang tấn công nhưng người chơi ra khỏi tầm đánh, ngừng tấn công và di chuyển
-                if (isAttacking)
-                {
-                    isAttacking = false;
-                    animator.ResetTrigger("Attack");
-                    animator.SetFloat("Velocity", 0.1f);  // Kích hoạt animation di chuyển
-                }
-                
-                // Di chuyển về phía người chơi
+                // Di chuyển về phía người chơi nếu ngoài tầm tấn công
                 agent.SetDestination(Targetplayer.transform.position);
+                animator.SetFloat("Velocity", 0.5f);  // Kích hoạt animation di chuyển
             }
             else
             {
-                // Khi trong tầm cận chiến
+                // Dừng lại và tấn công khi trong tầm tấn công
                 agent.SetDestination(transform.position);
                 animator.SetFloat("Velocity", 0f);  // Ngừng animation di chuyển
+
+                // Quay về phía người chơi và tấn công
+                RotateTowardsPlayer();
                 MeleeAttack();
             }
         }
     }
 
+    // Tấn công cận chiến người chơi
     void MeleeAttack()
     {
-        attackTimer -= Time.deltaTime;
-        if (attackTimer <= 0f)
+        attackTimer += Time.deltaTime;
+
+        if (attackTimer >= attackDelay)
         {
-            isAttacking = true;
-            animator.SetTrigger("Attack");  // Kích hoạt animation đòn tấn công cận chiến
-            // Logic xử lý gây sát thương nếu người chơi nằm trong tầm
-            // Ví dụ: Targetplayer.GetComponent<PlayerHealth>().TakeDamage(attackDamage);
-            attackTimer = attackDelay;
+            // Kích hoạt animation tấn công
+            animator.SetTrigger("Attack");
+            attackTimer = 0;
+
+            // Kiểm tra nếu người chơi trong tầm tấn công để gây sát thương
+            
         }
+    }
+
+    // Quay mặt quái vật về phía người chơi
+    void RotateTowardsPlayer()
+    {
+        Vector3 direction = (Targetplayer.transform.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 }
