@@ -1,42 +1,48 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+public class SpawnManager : MonoBehaviour
+{
+    public GameObject enemyPrefab;       // Prefab của enemy
+    public Transform[] spawnPoints;      // Danh sách các điểm spawn
+    public float spawnInterval = 60f;    // Thời gian spawn mỗi 1 phút (60 giây)
 
-using UnityEngine.UIElements;
-
-
-public class SpawnController : MonoBehaviour{
-
-
-  public GameObject enemyPrefab; // Kéo prefab kẻ thù vào đây trong Inspector
-    public Transform player; // Kéo transform của người chơi vào đây
-    public float spawnRadius = 10f; // Bán kính để spawn kẻ thù
-    public float spawnDistance = 15f; // Khoảng cách xa hơn từ người chơi để spawn
-    public int enemyCount = 5; // Số lượng kẻ thù cần spawn
+    private int spawnCount = 5;          // Số lượng enemy spawn ban đầu
+    private int maxSpawnCount = 20;      // Giới hạn số lượng enemy spawn tối đa
+    private float elapsedTime = 0f;      // Biến theo dõi thời gian đã trôi qua
 
     void Start()
     {
-        SpawnEnemies();
+        StartCoroutine(SpawnEnemies()); // Bắt đầu coroutine để spawn
     }
 
-    void SpawnEnemies()
+    private IEnumerator SpawnEnemies()
     {
-        for (int i = 0; i < enemyCount; i++)
+        while (true) // Lặp vô hạn
         {
-            float randomAngle = UnityEngine.Random.Range(0f, 360f);
-            float randomDistance = spawnDistance + UnityEngine.Random.Range(0f, spawnRadius);
-            
-            Vector3 spawnPosition = new Vector3(
-                player.position.x + randomDistance * Mathf.Cos(randomAngle * Mathf.Deg2Rad),
-                player.position.y, // Giữ y của người chơi
-                player.position.z + randomDistance * Mathf.Sin(randomAngle * Mathf.Deg2Rad) // Chuyển sang trục Z trong không gian 3D
-            );
+            yield return new WaitForSeconds(spawnInterval); // Đợi 1 phút
 
-            GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+            // Spawn nhiều enemy trong mỗi vòng lặp
+            for (int i = 0; i < spawnCount; i++)
+            {
+                SpawnEnemy();
+            }
 
-            
+            // Tăng số lượng enemy spawn sau mỗi lần spawn
+            spawnCount = Mathf.Min(spawnCount + 1, maxSpawnCount); // Đảm bảo không vượt quá số lượng tối đa
+
+            // Cập nhật thời gian đã trôi qua để kiểm tra số lượng enemy spawn tăng dần
+            elapsedTime += spawnInterval;
         }
+    }
+
+    private void SpawnEnemy()
+    {
+        // Chọn ngẫu nhiên một điểm spawn
+        int randomIndex = Random.Range(0, spawnPoints.Length);
+        Transform spawnPoint = spawnPoints[randomIndex];
+
+        // Spawn enemy tại điểm spawn đã chọn
+        Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
     }
 }
