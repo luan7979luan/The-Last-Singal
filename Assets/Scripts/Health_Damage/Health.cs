@@ -25,11 +25,11 @@ public class Health : MonoBehaviour
     {
         ragdoll =  GetComponent<Ragdoll>();
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-       //healthBar = GetComponentInChildren<UIHealthBar>();
+        healthBar = GetComponentInChildren<UIHealthBar>();
         currentHealth = maxHealth;
 
-        var rigidBodie = GetComponentsInChildren<Rigidbody>();
-        foreach(var rigidBody in rigidBodie)
+        var rigidBodies = GetComponentsInChildren<Rigidbody>();
+        foreach(var rigidBody in rigidBodies)
         {
             HitBox hitBox = rigidBody.gameObject.AddComponent<HitBox>();
             hitBox.health = this;

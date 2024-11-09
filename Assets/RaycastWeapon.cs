@@ -101,19 +101,28 @@ public class RaycastWeapon : MonoBehaviour
 
             bullet.tracer.transform.position = hitInfo.point;
             bullet.time = maxlifetime;
-        }
-        else
-        {
-            transform.position = ray.origin + ray.direction * 1000f;
-            bullet.tracer.transform.position = end;
-        }
-        
-        var hitBox = hitInfo.collider.GetComponent<HitBox>();
-        if (hitBox)
-        {
-            hitBox.OnRayCastHit(this, ray.direction);
-        }
+            end = hitInfo.point;
 
+            // collision impulse
+            var rb2d = hitInfo.collider.GetComponent<Rigidbody>();
+            if (rb2d)
+            {
+                rb2d.AddForceAtPosition(ray.direction * 20, hitInfo.point, ForceMode.Impulse);
+
+                var hitBox = hitInfo.collider.GetComponent<HitBox>();
+                if (hitBox)
+                {
+                    hitBox.OnRayCastHit(this, ray.direction);
+                }
+            }
+            else
+            {
+                transform.position = ray.origin + ray.direction * 1000f;
+                bullet.tracer.transform.position = end;
+            }
+
+
+        }
     }
 
     private void FireBullet()
