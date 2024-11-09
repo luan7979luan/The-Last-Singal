@@ -10,6 +10,7 @@ public class Health : MonoBehaviour
     [HideInInspector]
     public float currentHealth;
     Ragdoll ragdoll;
+    RobotController robotController;
 
     // tạo hiệu ứng chớp sáng 
     SkinnedMeshRenderer skinnedMeshRenderer;
@@ -23,6 +24,7 @@ public class Health : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        robotController = GetComponent<RobotController>();
         ragdoll =  GetComponent<Ragdoll>();
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
        //healthBar = GetComponentInChildren<UIHealthBar>();
@@ -42,6 +44,8 @@ public class Health : MonoBehaviour
         if (currentHealth <= 0.0f)
         {
             Die();
+            // turn off the robot controller
+            robotController.enabled = false;
         }
 
         blinkTimer = blinkDuration;
