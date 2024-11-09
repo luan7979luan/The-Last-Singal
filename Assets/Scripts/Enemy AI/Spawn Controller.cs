@@ -3,17 +3,24 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject enemyPrefab;       // Prefab của enemy
-    public Transform[] spawnPoints;      // Danh sách các điểm spawn
-    public float spawnInterval = 60f;    // Thời gian spawn mỗi 1 phút (60 giây)
+    public GameObject enemyPrefab;        // Prefab của enemy
+    public Transform[] spawnPoints;       // Danh sách các điểm spawn
+    public float spawnInterval = 60f;     // Thời gian spawn mỗi 1 phút (60 giây)
 
-    private int spawnCount = 5;          // Số lượng enemy spawn ban đầu
-    private int maxSpawnCount = 20;      // Giới hạn số lượng enemy spawn tối đa
-    private float elapsedTime = 0f;      // Biến theo dõi thời gian đã trôi qua
+    private int spawnCount = 5;           // Số lượng enemy spawn ban đầu
+    private int maxSpawnCount = 20;       // Giới hạn số lượng enemy spawn tối đa
+    private float elapsedTime = 0f;       // Biến theo dõi thời gian đã trôi qua
 
     void Start()
     {
-        StartCoroutine(SpawnEnemies()); // Bắt đầu coroutine để spawn
+        // Spawn ngay lập tức 20 enemy khi game bắt đầu
+        for (int i = 0; i < 20; i++)
+        {
+            SpawnEnemy();
+        }
+
+        // Sau khi spawn 20 enemy, bắt đầu coroutine để spawn tiếp
+        StartCoroutine(SpawnEnemies()); // Bắt đầu coroutine để spawn các enemy theo thời gian
     }
 
     private IEnumerator SpawnEnemies()
@@ -30,9 +37,6 @@ public class SpawnManager : MonoBehaviour
 
             // Tăng số lượng enemy spawn sau mỗi lần spawn
             spawnCount = Mathf.Min(spawnCount + 1, maxSpawnCount); // Đảm bảo không vượt quá số lượng tối đa
-
-            // Cập nhật thời gian đã trôi qua để kiểm tra số lượng enemy spawn tăng dần
-            elapsedTime += spawnInterval;
         }
     }
 
