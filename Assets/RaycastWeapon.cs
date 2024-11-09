@@ -24,6 +24,7 @@ public class RaycastWeapon : MonoBehaviour
     public Transform raycastOrigin;
     public Transform raycastDestination;
 
+    public float damage = 10;
 
     Ray ray;
     RaycastHit hitInfo;
@@ -105,6 +106,12 @@ public class RaycastWeapon : MonoBehaviour
         {
             transform.position = ray.origin + ray.direction * 1000f;
             bullet.tracer.transform.position = end;
+        }
+        
+        var hitBox = hitInfo.collider.GetComponent<HitBox>();
+        if (hitBox)
+        {
+            hitBox.OnRayCastHit(this, ray.direction);
         }
 
     }

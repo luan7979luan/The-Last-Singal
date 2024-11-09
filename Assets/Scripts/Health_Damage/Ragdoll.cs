@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Ragdoll : MonoBehaviour
 {
-    Rigidbody[] rigidBodies;
+    public Rigidbody[] rigidBodies;
     Animator animator;
     // Start is called before the first frame update
     void Start()
