@@ -3,50 +3,65 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject enemyPrefab;        // Prefab của enemy
-    public Transform[] spawnPoints;       // Danh sách các điểm spawn
-    public float spawnInterval = 60f;     // Thời gian spawn mỗi 1 phút (60 giây)
+    public GameObject enemyPrefab;           // Prefab của enemy
+    public Transform[] spawnPoints;          // Các điểm spawn cho enemy
+    public float spawnInterval = 1f;         // Thời gian giữa các lần spawn trong mỗi wave
+    public int initialEnemyCount = 5;        // Số lượng enemy spawn trong wave đầu tiên
+    public int maxEnemyCount = 50;           // Giới hạn số lượng enemy tối đa trong game
+    public float difficultyIncreaseTime = 60f; // Thời gian giữa mỗi lần tăng độ khó
+    public float difficultyMultiplier = 1.2f; // Hệ số tăng độ khó sau mỗi wave
 
-    private int spawnCount = 5;           // Số lượng enemy spawn ban đầu
-    private int maxSpawnCount = 20;       // Giới hạn số lượng enemy spawn tối đa
-    private float elapsedTime = 0f;       // Biến theo dõi thời gian đã trôi qua
+    private int currentWave = 0;             // Biến theo dõi số wave hiện tại
+    private int currentEnemyCount = 0;       // Biến theo dõi số lượng enemy đã spawn trong wave
+    private float waveTimer = 0f;            // Thời gian để spawn wave mới
 
     void Start()
     {
-        // Spawn ngay lập tức 20 enemy khi game bắt đầu
-        for (int i = 0; i < 20; i++)
-        {
-            SpawnEnemy();
-        }
-
-        // Sau khi spawn 20 enemy, bắt đầu coroutine để spawn tiếp
-        StartCoroutine(SpawnEnemies()); // Bắt đầu coroutine để spawn các enemy theo thời gian
+        // Bắt đầu spawn ngay khi game bắt đầu
+        StartCoroutine(SpawnWave());
     }
 
-    private IEnumerator SpawnEnemies()
+    private IEnumerator SpawnWave()
     {
-        while (true) // Lặp vô hạn
+        // Loop qua các wave
+        while (currentWave < 10) // Giới hạn số wave (hoặc có thể thay đổi)
         {
-            yield return new WaitForSeconds(spawnInterval); // Đợi 1 phút
+            currentWave++; // Tăng số wave
+            currentEnemyCount = Mathf.Min(initialEnemyCount * currentWave, maxEnemyCount);
 
-            // Spawn nhiều enemy trong mỗi vòng lặp
-            for (int i = 0; i < spawnCount; i++)
+            // Debug log số lượng enemy trong wave
+            Debug.Log("Wave " + currentWave + " - Spawning " + currentEnemyCount + " enemies");
+
+            // Spawn các enemy trong wave
+            for (int i = 0; i < currentEnemyCount; i++)
             {
                 SpawnEnemy();
+                yield return new WaitForSeconds(spawnInterval); // Đợi một chút trước khi spawn tiếp con quái mới
             }
 
-            // Tăng số lượng enemy spawn sau mỗi lần spawn
-            spawnCount = Mathf.Min(spawnCount + 1, maxSpawnCount); // Đảm bảo không vượt quá số lượng tối đa
+            // Đợi trước khi bắt đầu wave tiếp theo
+            yield return new WaitForSeconds(difficultyIncreaseTime); // Đợi thời gian giữa các wave
         }
     }
 
     private void SpawnEnemy()
     {
-        // Chọn ngẫu nhiên một điểm spawn
-        int randomIndex = Random.Range(0, spawnPoints.Length);
-        Transform spawnPoint = spawnPoints[randomIndex];
+        // Kiểm tra để đảm bảo spawn đúng
+        if (enemyPrefab != null && spawnPoints.Length > 0)
+        {
+            // Chọn ngẫu nhiên điểm spawn
+            int randomIndex = Random.Range(0, spawnPoints.Length);
+            Transform spawnPoint = spawnPoints[randomIndex];
 
-        // Spawn enemy tại điểm spawn đã chọn
-        Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+            // Spawn enemy tại điểm spawn đã chọn
+            Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+
+            // Debug log để kiểm tra spawn
+            Debug.Log("Spawned enemy at: " + spawnPoint.position);
+        }
+        else
+        {
+            Debug.LogWarning("EnemyPrefab hoặc spawnPoints chưa được gán!");
+        }
     }
 }
