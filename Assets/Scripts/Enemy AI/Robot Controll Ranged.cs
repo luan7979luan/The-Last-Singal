@@ -18,6 +18,8 @@ public class RobotController : MonoBehaviour
     public float shootingRange = 10f; // Tầm bắn của quái vật
     public float attackDelay = 2f;    // Khoảng thời gian giữa các lần bắn
     private float attackTimer;
+    
+   
 
     void Start()
     {
@@ -58,33 +60,60 @@ public class RobotController : MonoBehaviour
     }
 }
 
-    void shootatplayer()
+   void shootatplayer()
 {
     bullettime += Time.deltaTime;
 
     if (bullettime >= timer)
     {
-        // Kích hoạt animation tấn công
-        animator.SetTrigger("Attack");
         bullettime = 0;
 
-        // Xác định hướng bắn về phía người chơi
+        // Kích hoạt animation tấn công
+        animator.SetTrigger("Attack");
+
+        // Xác định hướng bắn
         Vector3 directionToPlayer = (Targetplayer.transform.position - firePoint.position).normalized;
 
-        // Xoay firePoint theo hướng của người chơi
-        firePoint.rotation = Quaternion.LookRotation(directionToPlayer);
+        // Đẩy viên đạn ra xa vị trí xuất phát
+        Vector3 spawnPosition = firePoint.position + firePoint.forward * 1f;
+        GameObject bullet = Instantiate(bulletPrefab, spawnPosition, Quaternion.LookRotation(directionToPlayer));
 
-        // Tạo ra viên đạn tại vị trí firePoint và hướng về phía người chơi
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-
-        // Nếu bạn muốn thiết lập tốc độ hoặc di chuyển viên đạn
+        // Thêm vận tốc cho viên đạn
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
         if (bulletRb != null)
         {
-            bulletRb.velocity = directionToPlayer * 20f; // 20f là tốc độ, bạn có thể thay đổi
+            bulletRb.isKinematic = false;
+            bulletRb.useGravity = false;
+            bulletRb.velocity = directionToPlayer * 30f; // Tăng tốc độ viên đạn
         }
+
+        Debug.Log("Bullet fired!");
     }
 }
+
+
+IEnumerator FireBulletAfterAnimation()
+{
+    // Giả định thời gian animation tấn công là 0.5 giây
+    yield return new WaitForSeconds(0.5f);
+
+    // Xác định hướng bắn
+    Vector3 directionToPlayer = (Targetplayer.transform.position - firePoint.position).normalized;
+
+    // Đẩy viên đạn ra xa hơn
+    Vector3 spawnPosition = firePoint.position + firePoint.forward * 0.5f;
+    GameObject bullet = Instantiate(bulletPrefab, spawnPosition, firePoint.rotation);
+
+    // Thêm vận tốc cho viên đạn
+    Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+    if (bulletRb != null)
+    {
+        bulletRb.velocity = directionToPlayer * 30f; // Tăng tốc độ viên đạn
+    }
+
+}
+
+
 
     // Quay mặt quái vật về phía người chơi
     void RotateTowardsPlayer()
