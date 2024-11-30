@@ -1704,11 +1704,7 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1474685057}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3554413326398668500, guid: 6a0794b211c10b9489dc4bac6a668bd0,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1910470122}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a0794b211c10b9489dc4bac6a668bd0, type: 3}
 --- !u!4 &241376051 stripped
 Transform:
@@ -10413,12 +10409,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1971424423}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1490525279 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3554413326398668500, guid: 6a0794b211c10b9489dc4bac6a668bd0,
-    type: 3}
-  m_PrefabInstance: {fileID: 226186292}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1503796701
 GameObject:
   m_ObjectHideFlags: 0
@@ -13813,21 +13803,6 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 226186292}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1910470122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1490525279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e511cbb35993ca645b1f0369562571e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InteractableLayermask:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!43 &1920910978
 Mesh:
   m_ObjectHideFlags: 0
