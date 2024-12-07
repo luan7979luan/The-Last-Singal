@@ -8,15 +8,26 @@ public class RobotControllerMelee : MonoBehaviour
     public GameObject Targetplayer;
     private NavMeshAgent agent;
     private Animator animator;
+    public PlayerHealth health;
+
+    public int damage;
+    public NPC_DamageZone _damageZone;
 
     public float attackRange = 2f;   // Tầm tấn công cận chiến của quái vật
     public float attackDelay = 2f;   // Khoảng thời gian giữa các lần tấn công
     private float attackTimer;
 
+    private void Awake()
+    {
+        //Khởi tạo DamageZone
+        _damageZone = GetComponentInChildren<NPC_DamageZone>();
+    }
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        health = GetComponent<PlayerHealth>();
         agent.speed = Random.Range(1f, 3f);
         attackTimer = attackDelay;
     }
@@ -24,6 +35,16 @@ public class RobotControllerMelee : MonoBehaviour
     void FixedUpdate()
     {
         Move();
+    }
+
+    public void EnableDamageCaster()
+    {
+        _damageZone.EnableDamageCaster();
+    }
+
+    public void DisableDamageCaster()
+    {
+        _damageZone.DisableDamageCaster();
     }
 
     private void Move()
