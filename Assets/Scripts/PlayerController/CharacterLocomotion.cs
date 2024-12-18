@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,8 @@ public class CharacterLocomotion : MonoBehaviour
     Vector3 rootMotion;
     Vector3 velocity;
     bool isJumping;
+    int isSprintingParam = Animator.StringToHash("isSprinting");
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -32,12 +35,21 @@ public class CharacterLocomotion : MonoBehaviour
         animator.SetFloat("InputX", input.x);
         animator.SetFloat("InputY", input.y);
 
+        UpdateIsSprinting();
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
 
         }
     }
+
+    private void UpdateIsSprinting()
+    {
+        bool isSprinting = Input.GetKey(KeyCode.LeftShift);
+        animator.SetBool(isSprintingParam, isSprinting);
+    }
+
     private void OnAnimatorMove()
     {
         rootMotion += animator.deltaPosition;
