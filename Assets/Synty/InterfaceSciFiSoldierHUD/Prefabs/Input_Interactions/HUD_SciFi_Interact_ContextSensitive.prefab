@@ -313,12 +313,12 @@ PrefabInstance:
     - target: {fileID: 7947949665402866633, guid: 22f157b959ffc3f4b9bce7b0c8466283,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 162.54001
+      value: 264.63
       objectReference: {fileID: 0}
     - target: {fileID: 7947949665402866633, guid: 22f157b959ffc3f4b9bce7b0c8466283,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 131.27
+      value: 182.315
       objectReference: {fileID: 0}
     - target: {fileID: 7947949665402866633, guid: 22f157b959ffc3f4b9bce7b0c8466283,
         type: 3}
@@ -358,7 +358,7 @@ PrefabInstance:
     - target: {fileID: 8786162410136099424, guid: 22f157b959ffc3f4b9bce7b0c8466283,
         type: 3}
       propertyPath: m_text
-      value: Open
+      value: Repair Ship
       objectReference: {fileID: 0}
     - target: {fileID: 3758693309512000687, guid: cd1842de1a6bd0e43a5af6221df5ef97,
         type: 3}
