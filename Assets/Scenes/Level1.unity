@@ -7315,9 +7315,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f67673b3a986899489127faccc9ef5c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialMessage: Press F to interact
-  interactedMessage: Interaction complete!
-  uiPrompt: {fileID: 1196682120}
+  repairShipUI: {fileID: 1196682120}
+  enterShipUI: {fileID: 1979009410}
+  screenOverlay: {fileID: 894238107}
+  fireObjects: []
 --- !u!135 &915411787
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -19858,6 +19859,12 @@ CapsuleCollider:
   m_Height: 0.0000011798752
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: -0.0000005899376}
+--- !u!1 &1979009410 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3881687657502562237, guid: 69463d1bf32cf194391405856bb74040,
+    type: 3}
+  m_PrefabInstance: {fileID: 978443993}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1981442100
 GameObject:
   m_ObjectHideFlags: 0
