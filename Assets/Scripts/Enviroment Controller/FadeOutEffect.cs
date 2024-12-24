@@ -12,13 +12,13 @@ public class FadeOutEffect : MonoBehaviour
     void Update()
     {
         // Kiểm tra nếu người dùng nhấn phím E
-        if (Input.GetKeyDown(KeyCode.E) && !isFading)
+        if (Input.GetKeyDown(KeyCode.F) && !isFading)
         {
             StartCoroutine(FadeOutIn());
         }
     }
 
-    IEnumerator FadeOutIn()
+    public IEnumerator FadeOutIn()
     {
         isFading = true;
 

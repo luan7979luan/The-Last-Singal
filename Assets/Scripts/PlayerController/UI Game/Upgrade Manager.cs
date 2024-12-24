@@ -14,6 +14,7 @@ public class UpgradeManager : MonoBehaviour
     public Button healthButton; // Nút tăng máu
 
     private bool isUpgradeMenuActive = false; // Trạng thái menu nâng cấp
+     public GameObject playerHUD;
 
     void Start()
     {
@@ -42,6 +43,7 @@ public class UpgradeManager : MonoBehaviour
         if (isUpgradeMenuActive)
         {
             // Hiện panel và dừng game
+            playerHUD.SetActive(false);
             upgradePanel.SetActive(true);
             Cursor.lockState = CursorLockMode.None; // Hiện chuột
             Cursor.visible = true;
@@ -50,6 +52,7 @@ public class UpgradeManager : MonoBehaviour
         else
         {
             // Ẩn panel và tiếp tục game
+            playerHUD.SetActive(true);
             upgradePanel.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked; // Ẩn chuột
             Cursor.visible = false;
