@@ -6782,6 +6782,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6312242280354507880, guid: 69463d1bf32cf194391405856bb74040,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6312242280354507880, guid: 69463d1bf32cf194391405856bb74040,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6312242280354507880, guid: 69463d1bf32cf194391405856bb74040,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6312242280354507880, guid: 69463d1bf32cf194391405856bb74040,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6312242280354507880, guid: 69463d1bf32cf194391405856bb74040,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7260207836412083681, guid: 69463d1bf32cf194391405856bb74040,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -6872,6 +6897,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -30
       objectReference: {fileID: 0}
+    - target: {fileID: 7715502415984455617, guid: 69463d1bf32cf194391405856bb74040,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8498904464950498610, guid: 69463d1bf32cf194391405856bb74040,
+        type: 3}
+      propertyPath: m_text
+      value: Space Ship
+      objectReference: {fileID: 0}
     - target: {fileID: 8695897238867267683, guid: 69463d1bf32cf194391405856bb74040,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -6895,7 +6930,7 @@ PrefabInstance:
     - target: {fileID: 8695897238867267683, guid: 69463d1bf32cf194391405856bb74040,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -60
+      value: -130
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7318,7 +7353,10 @@ MonoBehaviour:
   repairShipUI: {fileID: 1196682120}
   enterShipUI: {fileID: 1979009410}
   screenOverlay: {fileID: 894238107}
-  fireObjects: []
+  fireObjects:
+  - {fileID: 244743976}
+  - {fileID: 1985785307}
+  - {fileID: 860785568}
 --- !u!135 &915411787
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7402,6 +7440,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Entership
+      objectReference: {fileID: 0}
+    - target: {fileID: 3881687657502562237, guid: 69463d1bf32cf194391405856bb74040,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4898854678204676101, guid: 69463d1bf32cf194391405856bb74040,
         type: 3}
