@@ -14,6 +14,8 @@ public class ShooterController : MonoBehaviour
     [SerializeField] private Transform debugTransform;
     [SerializeField] private Transform Bullet;
     [SerializeField] private Transform spawnBulletPosition;
+    [SerializeField] public AudioSource audioSource; // Đối tượng Audio Source
+    [SerializeField] public AudioClip shootSound;    // Âm thanh bắn súng
 
 
     private ThirdPersonController thirdPersonController;
@@ -24,6 +26,8 @@ public class ShooterController : MonoBehaviour
     {
         thirdPersonController = GetComponent<ThirdPersonController>();
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -62,6 +66,8 @@ public class ShooterController : MonoBehaviour
         // Shootting
         if (starterAssetsInputs.shoot)
         {
+            audioSource.clip = shootSound;
+            audioSource.Play();
             Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
             Instantiate(Bullet, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
             starterAssetsInputs.shoot = false;

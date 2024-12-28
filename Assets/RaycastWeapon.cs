@@ -24,6 +24,8 @@ public class RaycastWeapon : MonoBehaviour
     public Transform raycastOrigin;
     public Transform raycastDestination;
 
+    
+
     public float damage = 10;
 
     Ray ray;
