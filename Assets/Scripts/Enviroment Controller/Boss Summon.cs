@@ -10,6 +10,10 @@ public class BossSummon : MonoBehaviour
     public Transform bossSpawnPoint; // Vị trí để triệu hồi boss.
     public Material redSkybox; // Skybox màu đỏ.
 
+    public AudioSource gameMusic; // Nhạc nền của game.
+    public AudioSource bossMusicSource; // AudioSource cho nhạc nền boss.
+    public AudioClip bossMusic; // Nhạc nền của boss.
+
     private bool isPlayerInRange = false;
     private bool hasSummonedBoss = false;
 
@@ -19,6 +23,14 @@ public class BossSummon : MonoBehaviour
         if (screenOverlay != null)
         {
             screenOverlay.color = new Color(0, 0, 0, 0);
+        }
+
+        // Thiết lập ban đầu cho nhạc boss (chưa phát).
+        if (bossMusicSource != null)
+        {
+            bossMusicSource.clip = bossMusic;
+            bossMusicSource.volume = 0f;
+            bossMusicSource.loop = true; // Lặp lại nhạc boss nếu cần.
         }
     }
 
@@ -70,6 +82,12 @@ public class BossSummon : MonoBehaviour
             DynamicGI.UpdateEnvironment(); // Cập nhật môi trường để thay đổi có hiệu lực ngay lập tức.
         }
 
+        // Thay đổi nhạc nền.
+        if (gameMusic != null && bossMusicSource != null)
+        {
+            StartCoroutine(SwitchToBossMusic());
+        }
+
         // Chờ 1 giây trước khi sáng màn hình trở lại.
         yield return new WaitForSeconds(1f);
 
@@ -78,7 +96,39 @@ public class BossSummon : MonoBehaviour
             yield return StartCoroutine(FadeToClear());
         }
 
-        Debug.Log("Boss summoned and sky changed to red!");
+        Debug.Log("Boss summoned, sky changed to red, and music switched!");
+    }
+
+    IEnumerator SwitchToBossMusic()
+    {
+        float fadeDuration = 1f; // Thời gian fade nhạc.
+        
+        // Fade out nhạc nền game.
+        if (gameMusic != null)
+        {
+            float startVolume = gameMusic.volume;
+
+            for (float t = 0; t < fadeDuration; t += Time.deltaTime)
+            {
+                gameMusic.volume = Mathf.Lerp(startVolume, 0, t / fadeDuration);
+                yield return null;
+            }
+
+            gameMusic.Stop();
+        }
+
+        // Fade in nhạc boss.
+        if (bossMusicSource != null)
+        {
+            bossMusicSource.Play();
+            float startVolume = bossMusicSource.volume;
+
+            for (float t = 0; t < fadeDuration; t += Time.deltaTime)
+            {
+                bossMusicSource.volume = Mathf.Lerp(0, 1f, t / fadeDuration); // Điều chỉnh âm lượng tối đa của boss nhạc.
+                yield return null;
+            }
+        }
     }
 
     IEnumerator FadeToBlack()
