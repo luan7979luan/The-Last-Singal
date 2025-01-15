@@ -14,6 +14,8 @@ public class BossSummon : MonoBehaviour
     public AudioSource bossMusicSource; // AudioSource cho nhạc nền boss.
     public AudioClip bossMusic; // Nhạc nền của boss.
 
+    public GameObject summonBossUI; // UI để hiển thị nội dung "Summon Boss".
+
     private bool isPlayerInRange = false;
     private bool hasSummonedBoss = false;
 
@@ -23,6 +25,12 @@ public class BossSummon : MonoBehaviour
         if (screenOverlay != null)
         {
             screenOverlay.color = new Color(0, 0, 0, 0);
+        }
+
+        // Tắt UI summon boss ban đầu.
+        if (summonBossUI != null)
+        {
+            summonBossUI.SetActive(false);
         }
 
         // Thiết lập ban đầu cho nhạc boss (chưa phát).
@@ -39,6 +47,12 @@ public class BossSummon : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = true;
+
+            // Hiển thị UI summon boss.
+            if (summonBossUI != null && !hasSummonedBoss)
+            {
+                summonBossUI.SetActive(true);
+            }
         }
     }
 
@@ -47,6 +61,12 @@ public class BossSummon : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = false;
+
+            // Ẩn UI summon boss khi rời khỏi vùng.
+            if (summonBossUI != null)
+            {
+                summonBossUI.SetActive(false);
+            }
         }
     }
 
@@ -62,6 +82,12 @@ public class BossSummon : MonoBehaviour
     {
         hasSummonedBoss = true;
         Debug.Log("Summoning the boss...");
+
+        // Tắt UI summon boss.
+        if (summonBossUI != null)
+        {
+            summonBossUI.SetActive(false);
+        }
 
         // Hiệu ứng tối màn hình.
         if (screenOverlay != null)
@@ -102,7 +128,7 @@ public class BossSummon : MonoBehaviour
     IEnumerator SwitchToBossMusic()
     {
         float fadeDuration = 1f; // Thời gian fade nhạc.
-        
+
         // Fade out nhạc nền game.
         if (gameMusic != null)
         {
