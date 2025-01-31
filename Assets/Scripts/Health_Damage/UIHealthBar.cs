@@ -5,42 +5,17 @@ using UnityEngine.UI;
 
 public class UIHealthBar : MonoBehaviour
 {
-     public Slider healthSlider;   // Tham chiếu đến Slider trong Canvas
-    public float maxHealth = 100f; // Máu tối đa của kẻ thù
-    private float currentHealth;  // Máu hiện tại
+    private Transform _playerCamera;
 
     void Start()
     {
-        currentHealth = maxHealth; // Gán máu ban đầu
-        UpdateHealthUI();
+        // Lấy transform của camera chính (camera người chơi)
+        _playerCamera = Camera.main.transform;
     }
 
-    // Gây sát thương cho kẻ thù
-    public void TakeDamage(float damage)
+    void Update()
     {
-        currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Đảm bảo máu không âm
-        UpdateHealthUI();
-
-        if (currentHealth <= 0)
-        {
-            Die(); // Gọi hàm chết nếu máu về 0
-        }
-    }
-
-    // Cập nhật UI thanh máu
-    private void UpdateHealthUI()
-    {
-        if (healthSlider != null)
-        {
-            healthSlider.value = currentHealth / maxHealth; // Hiển thị tỷ lệ phần trăm máu
-        }
-    }
-
-    // Xử lý khi kẻ thù chết
-    private void Die()
-    {
-        // Thêm logic cho việc kẻ thù chết (ví dụ: animation, hủy object)
-        Destroy(gameObject); // Xóa kẻ thù khỏi Scene
+        // Xoay thanh máu để luôn hướng về camera
+        transform.LookAt(transform.position + _playerCamera.forward);
     }
 }
