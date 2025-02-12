@@ -2,19 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HitBox : MonoBehaviour
+public class hitboxMelee : MonoBehaviour
 {
-   public Health health;
    public Healthmelee healthmelee;
 
     public void OnRayCastHit(RaycastWeapon weapon, Vector3 direction)
     {
-        health.TakeDamage(weapon.damage, direction);
-        
-    }
-
-    public void OnRayCastHitMelee(RaycastWeapon weapon, Vector3 direction)
-    {
         healthmelee.TakeDamage(weapon.damage, direction);
+        
     }
 }
