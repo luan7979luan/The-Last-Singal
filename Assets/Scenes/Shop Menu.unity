@@ -3848,6 +3848,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1514856635}
+    - targetCorrespondingSourceObject: {fileID: 995943462352448002, guid: 01bf04b6f3b297e4cbb2db9254a30cf0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1514856636}
   m_SourcePrefab: {fileID: 100100000, guid: 01bf04b6f3b297e4cbb2db9254a30cf0, type: 3}
 --- !u!1 &1235827542
 GameObject:
@@ -4154,6 +4158,18 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1514856636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 639236473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d546444ff5caa449d768c240112737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1721579979
 GameObject:
   m_ObjectHideFlags: 0
