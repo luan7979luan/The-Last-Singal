@@ -33,8 +33,8 @@ public class Healthmelee : MonoBehaviour
         var rigidBodies = GetComponentsInChildren<Rigidbody>();
         foreach(var rigidBody in rigidBodies)
         {
-            hitboxMelee hitBox = rigidBody.gameObject.AddComponent<hitboxMelee>();
-            hitBox.healthmelee = this;
+            hitboxMelee hitBoxMelee = rigidBody.gameObject.AddComponent<hitboxMelee>();
+            hitBoxMelee.healthmelee = this;
         }
     }
     public void TakeDamage(float amount, Vector3 direction)

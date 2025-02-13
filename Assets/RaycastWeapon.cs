@@ -110,21 +110,22 @@ public class RaycastWeapon : MonoBehaviour
             if (rb2d)
             {
                 rb2d.AddForceAtPosition(ray.direction * 20, hitInfo.point, ForceMode.Impulse);
-
-                var hitBox = hitInfo.collider.GetComponent<HitBox>();
-                if (hitBox)
-                {
-                    hitBox.OnRayCastHit(this, ray.direction);
-                }
             }
-            else
+
+            var hitBox = hitInfo.collider.GetComponent<HitBox>();
+            if (hitBox)
             {
-                transform.position = ray.origin + ray.direction * 1000f;
-                bullet.tracer.transform.position = end;
+                hitBox.OnRayCastHit(this, ray.direction);
             }
-
-
+            var hitBoxMelee = hitInfo.collider.GetComponent<hitboxMelee>();
+            if (hitBoxMelee)
+            {
+                hitBoxMelee.OnRayCastHit(this, ray.direction);
+            }
         }
+             bullet.tracer.transform.position = end;
+            
+        
     }
 
     private void FireBullet()
