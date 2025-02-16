@@ -14,6 +14,7 @@ public class Healthmelee : MonoBehaviour
 
     // tạo hiệu ứng chớp sáng 
     SkinnedMeshRenderer skinnedMeshRenderer;
+    public Animator animator;
 
     UIHealthBar healthBar;
 
@@ -43,20 +44,22 @@ public class Healthmelee : MonoBehaviour
         //healthBar.SetHealthBarPercentage(currentHealth / maxHealth);
         if (currentHealth <= 0.0f)
         {
-            Die();
+            animator.SetTrigger("Die");
             // turn off the robot controller
             robotControllerMelee.enabled = false;
+
+            Destroy(gameObject, 3f); // huy vat the sau 3s
         }
 
         blinkTimer = blinkDuration;
 
     }
-    private void Die()
-    {
-        ragdoll.ActivateRagroll();
-        //healthBar.gameObject.SetActive(false);
+    //private void Die()
+    //{
+    //    ragdoll.ActivateRagroll();
+    //    //healthBar.gameObject.SetActive(false);
         
-    }
+    //}
     private void Update()
     {
         blinkTimer -= Time.deltaTime;

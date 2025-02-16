@@ -94,9 +94,9 @@ public class RaycastWeapon : MonoBehaviour
         float distance = direction.magnitude;
         ray.origin = start;
         ray.direction = direction;
-        if (Physics.Raycast(ray, out hitInfo))
+        if (Physics.Raycast(ray, out hitInfo, distance))
         {
-            transform.position = hitInfo.point;
+            //transform.position = hitInfo.point;
             hitEffect.transform.position = hitInfo.point;
             hitEffect.transform.forward = hitInfo.normal;
             hitEffect.Emit(1);

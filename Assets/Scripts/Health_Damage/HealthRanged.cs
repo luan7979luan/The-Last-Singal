@@ -14,6 +14,9 @@ public class Health : MonoBehaviour
 
     // tạo hiệu ứng chớp sáng 
     SkinnedMeshRenderer skinnedMeshRenderer;
+    public MaterialPropertyBlock _materialPropertyBlock;
+
+    public Animator animator;
 
     UIHealthBar healthBar;
 
@@ -27,6 +30,8 @@ public class Health : MonoBehaviour
         robotController = GetComponent<RobotController>();
         ragdoll =  GetComponent<Ragdoll>();
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        _materialPropertyBlock = new MaterialPropertyBlock();
+        skinnedMeshRenderer.GetPropertyBlock(_materialPropertyBlock);
         healthBar = GetComponentInChildren<UIHealthBar>();
         currentHealth = maxHealth;
 
@@ -43,20 +48,24 @@ public class Health : MonoBehaviour
         //healthBar.SetHealthBarPercentage(currentHealth / maxHealth);
         if (currentHealth <= 0.0f)
         {
-            Die();
             // turn off the robot controller
             robotController.enabled = false;
+            animator.SetTrigger("Die"); // chet
+                                        //StartCoroutine(MaterialDissolve());// tao hieu ung bien mat
+
+            Destroy(gameObject, 3f); // huy vat the
         }
 
         blinkTimer = blinkDuration;
 
     }
-    private void Die()
-    {
-        ragdoll.ActivateRagroll();
-        //healthBar.gameObject.SetActive(false);
-        
-    }
+    //private void Die()
+    //{
+    //    animator.SetTrigger("Die");
+    //    //ragdoll.ActivateRagroll();
+    //    //healthBar.gameObject.SetActive(false);
+
+    //}
     private void Update()
     {
         blinkTimer -= Time.deltaTime;
@@ -64,5 +73,28 @@ public class Health : MonoBehaviour
         float intensity = lerp * blinkIntensity + 1.0f;
         skinnedMeshRenderer.material.color = Color.white * intensity;
     }
+
+    //private IEnumerator MaterialDissolve()
+    //{
+    //    yield return new WaitForSeconds(2);
+
+    //    var dissolveTimeduration = 2f;
+    //    var currentDissolveTime = 0f;
+    //    var dissolveHeightStart = 30f;
+    //    var dissolveHeightEnd = -10f;
+    //    var dissolveHeight = dissolveHeightStart;
+
+    //    _materialPropertyBlock.SetFloat("_enableDissolve", 1f);
+    //    skinnedMeshRenderer.SetPropertyBlock(_materialPropertyBlock);
+
+    //    while( currentDissolveTime < dissolveTimeduration )
+    //    {
+    //        currentDissolveTime += Time.deltaTime;
+    //        dissolveHeight = Mathf.Lerp(dissolveHeightStart, dissolveHeightEnd, currentDissolveTime / dissolveTimeduration);
+    //        _materialPropertyBlock.SetFloat("_dissolve_height", dissolveHeight);
+    //        skinnedMeshRenderer.SetPropertyBlock(_materialPropertyBlock);
+    //        yield return null;
+    //    }
+    //}
 
 }
