@@ -12,7 +12,7 @@ public class Health : MonoBehaviour
     Ragdoll ragdoll;
     RobotController robotController;
 
-    // tạo hiệu ứng chớp sáng 
+    // Tạo hiệu ứng chớp sáng 
     SkinnedMeshRenderer skinnedMeshRenderer;
     public MaterialPropertyBlock _materialPropertyBlock;
 
@@ -24,11 +24,14 @@ public class Health : MonoBehaviour
     public float blinkDuration;
     float blinkTimer;
 
+    // Số kinh nghiệm thưởng cho player khi robot bị tiêu diệt
+    public int experienceReward = 50;
+
     // Start is called before the first frame update
     void Start()
     {
         robotController = GetComponent<RobotController>();
-        ragdoll =  GetComponent<Ragdoll>();
+        ragdoll = GetComponent<Ragdoll>();
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         _materialPropertyBlock = new MaterialPropertyBlock();
         skinnedMeshRenderer.GetPropertyBlock(_materialPropertyBlock);
@@ -36,36 +39,50 @@ public class Health : MonoBehaviour
         currentHealth = maxHealth;
 
         var rigidBodies = GetComponentsInChildren<Rigidbody>();
-        foreach(var rigidBody in rigidBodies)
+        foreach (var rigidBody in rigidBodies)
         {
             HitBox hitBox = rigidBody.gameObject.AddComponent<HitBox>();
             hitBox.health = this;
         }
     }
+
     public void TakeDamage(float amount, Vector3 direction)
     {
         currentHealth -= amount;
         //healthBar.SetHealthBarPercentage(currentHealth / maxHealth);
         if (currentHealth <= 0.0f)
         {
-            // turn off the robot controller
+            // Vô hiệu hóa controller của robot
             robotController.enabled = false;
-            animator.SetTrigger("Die"); // chet
-                                        //StartCoroutine(MaterialDissolve());// tao hieu ung bien mat
+            animator.SetTrigger("Die"); // trigger animation chết
 
-            Destroy(gameObject, 3f); // huy vat the
+            // Cộng kinh nghiệm cho player
+            AddExperienceToPlayer();
+
+            // Có thể thêm hiệu ứng khác như dissolve ở đây (đã comment)
+            //StartCoroutine(MaterialDissolve());
+
+            Destroy(gameObject, 3f); // Hủy vật thể sau 3 giây
         }
 
         blinkTimer = blinkDuration;
-
     }
-    //private void Die()
-    //{
-    //    animator.SetTrigger("Die");
-    //    //ragdoll.ActivateRagroll();
-    //    //healthBar.gameObject.SetActive(false);
 
-    //}
+    // Hàm cộng kinh nghiệm cho player
+    public void AddExperienceToPlayer()
+    {
+        // Giả sử đối tượng player có component PlayerExperience
+        PlayerExperience playerExperience = FindObjectOfType<PlayerExperience>();
+        if (playerExperience != null)
+        {
+            playerExperience.AddExperience(experienceReward);
+        }
+        else
+        {
+            Debug.LogWarning("Không tìm thấy PlayerExperience trong scene!");
+        }
+    }
+
     private void Update()
     {
         blinkTimer -= Time.deltaTime;
@@ -74,27 +91,29 @@ public class Health : MonoBehaviour
         skinnedMeshRenderer.material.color = Color.white * intensity;
     }
 
-    //private IEnumerator MaterialDissolve()
-    //{
-    //    yield return new WaitForSeconds(2);
+    // Nếu bạn muốn sử dụng hiệu ứng dissolve, có thể mở phần này lên
+    /*
+    private IEnumerator MaterialDissolve()
+    {
+        yield return new WaitForSeconds(2);
 
-    //    var dissolveTimeduration = 2f;
-    //    var currentDissolveTime = 0f;
-    //    var dissolveHeightStart = 30f;
-    //    var dissolveHeightEnd = -10f;
-    //    var dissolveHeight = dissolveHeightStart;
+        var dissolveTimeduration = 2f;
+        var currentDissolveTime = 0f;
+        var dissolveHeightStart = 30f;
+        var dissolveHeightEnd = -10f;
+        var dissolveHeight = dissolveHeightStart;
 
-    //    _materialPropertyBlock.SetFloat("_enableDissolve", 1f);
-    //    skinnedMeshRenderer.SetPropertyBlock(_materialPropertyBlock);
+        _materialPropertyBlock.SetFloat("_enableDissolve", 1f);
+        skinnedMeshRenderer.SetPropertyBlock(_materialPropertyBlock);
 
-    //    while( currentDissolveTime < dissolveTimeduration )
-    //    {
-    //        currentDissolveTime += Time.deltaTime;
-    //        dissolveHeight = Mathf.Lerp(dissolveHeightStart, dissolveHeightEnd, currentDissolveTime / dissolveTimeduration);
-    //        _materialPropertyBlock.SetFloat("_dissolve_height", dissolveHeight);
-    //        skinnedMeshRenderer.SetPropertyBlock(_materialPropertyBlock);
-    //        yield return null;
-    //    }
-    //}
-
+        while (currentDissolveTime < dissolveTimeduration)
+        {
+            currentDissolveTime += Time.deltaTime;
+            dissolveHeight = Mathf.Lerp(dissolveHeightStart, dissolveHeightEnd, currentDissolveTime / dissolveTimeduration);
+            _materialPropertyBlock.SetFloat("_dissolve_height", dissolveHeight);
+            skinnedMeshRenderer.SetPropertyBlock(_materialPropertyBlock);
+            yield return null;
+        }
+    }
+    */
 }
