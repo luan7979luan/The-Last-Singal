@@ -27,6 +27,9 @@ public class Health : MonoBehaviour
     // Số kinh nghiệm thưởng cho player khi robot bị tiêu diệt
     public int experienceReward = 50;
 
+    // Biến để kiểm tra trạng thái chết, tránh kích hoạt nhiều lần
+    private bool isDead = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,19 +51,22 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float amount, Vector3 direction)
     {
+        // Nếu đã chết rồi, không xử lý thêm
+        if (isDead)
+            return;
+
         currentHealth -= amount;
-        //healthBar.SetHealthBarPercentage(currentHealth / maxHealth);
-        if (currentHealth <= 0.0f)
+        // Khi máu <= 0, xử lý hành động chết chỉ một lần
+        if (currentHealth <= 0.0f && !isDead)
         {
-            // Vô hiệu hóa controller của robot
+            isDead = true; // Đánh dấu đã chết
+
+            // Vô hiệu hóa controller và kích hoạt animation chết
             robotController.enabled = false;
-            animator.SetTrigger("Die"); // trigger animation chết
+            animator.SetTrigger("Die");
 
             // Cộng kinh nghiệm cho player
             AddExperienceToPlayer();
-
-            // Có thể thêm hiệu ứng khác như dissolve ở đây (đã comment)
-            //StartCoroutine(MaterialDissolve());
 
             Destroy(gameObject, 3f); // Hủy vật thể sau 3 giây
         }
@@ -91,8 +97,8 @@ public class Health : MonoBehaviour
         skinnedMeshRenderer.material.color = Color.white * intensity;
     }
 
-    // Nếu bạn muốn sử dụng hiệu ứng dissolve, có thể mở phần này lên
     /*
+    // Nếu bạn muốn sử dụng hiệu ứng dissolve, có thể mở phần này lên
     private IEnumerator MaterialDissolve()
     {
         yield return new WaitForSeconds(2);
