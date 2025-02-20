@@ -16052,6 +16052,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  animator: {fileID: 1828437926}
   blinkIntensity: 50
   blinkDuration: 0.5
 --- !u!114 &1828437925
@@ -16067,6 +16068,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBodies: []
+--- !u!95 &1828437926 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: d0f0da05664b6844fa725f733e465f43,
+    type: 3}
+  m_PrefabInstance: {fileID: 1972708102}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1831402302
 GameObject:
   m_ObjectHideFlags: 0
@@ -18748,8 +18755,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  animator: {fileID: 1901399135}
   blinkIntensity: 30
   blinkDuration: 0.5
+--- !u!95 &1901399135 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4400971351864353828, guid: 92b882a8d30982647a9ca5f16786f97c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1901399126}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1910470109 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3164316823027309274, guid: 6a0794b211c10b9489dc4bac6a668bd0,
