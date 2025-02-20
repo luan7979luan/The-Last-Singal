@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI; // Thêm namespace để sử dụng NavMeshAgent
 
 public class Healthmelee : MonoBehaviour
 {
@@ -13,7 +12,7 @@ public class Healthmelee : MonoBehaviour
     Ragdoll ragdoll;
     RobotControllerMelee robotControllerMelee;
 
-    // Tạo hiệu ứng chớp sáng 
+    // tạo hiệu ứng chớp sáng 
     SkinnedMeshRenderer skinnedMeshRenderer;
     public Animator animator;
 
@@ -23,79 +22,44 @@ public class Healthmelee : MonoBehaviour
     public float blinkDuration;
     float blinkTimer;
 
-    // Số kinh nghiệm thưởng cho player khi enemy bị tiêu diệt
-    public int experienceReward = 50;
-
-    // Biến để kiểm tra trạng thái chết, tránh kích hoạt nhiều lần
-    private bool isDead = false;
-
-    // Tham chiếu đến NavMeshAgent (nếu có)
-    private NavMeshAgent navAgent;
-
     // Start is called before the first frame update
     void Start()
     {
         robotControllerMelee = GetComponent<RobotControllerMelee>();
-        ragdoll = GetComponent<Ragdoll>();
+        ragdoll =  GetComponent<Ragdoll>();
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         healthBar = GetComponentInChildren<UIHealthBar>();
         currentHealth = maxHealth;
 
-        // Lấy component NavMeshAgent nếu có
-        navAgent = GetComponent<NavMeshAgent>();
-
         var rigidBodies = GetComponentsInChildren<Rigidbody>();
-        foreach (var rigidBody in rigidBodies)
+        foreach(var rigidBody in rigidBodies)
         {
             hitboxMelee hitBoxMelee = rigidBody.gameObject.AddComponent<hitboxMelee>();
             hitBoxMelee.healthmelee = this;
         }
     }
-
     public void TakeDamage(float amount, Vector3 direction)
     {
-        // Nếu đã chết rồi, không xử lý thêm
-        if (isDead)
-            return;
-
         currentHealth -= amount;
-        // healthBar.SetHealthBarPercentage(currentHealth / maxHealth);
-        if (currentHealth <= 0.0f && !isDead)
+        //healthBar.SetHealthBarPercentage(currentHealth / maxHealth);
+        if (currentHealth <= 0.0f)
         {
-            isDead = true; // Đánh dấu đối tượng đã chết
-
             animator.SetTrigger("Die");
-            // Tắt controller của robot
+            // turn off the robot controller
             robotControllerMelee.enabled = false;
-            
-            // Tắt NavMeshAgent nếu có
-            if (navAgent != null)
-                navAgent.enabled = false;
 
-            // Cộng kinh nghiệm cho player
-            AddExperienceToPlayer();
-
-            Destroy(gameObject, 3f); // Hủy vật thể sau 3 giây
+            Destroy(gameObject, 3f); // huy vat the sau 3s
         }
 
         blinkTimer = blinkDuration;
-    }
 
-    // Hàm cộng kinh nghiệm cho player
-    public void AddExperienceToPlayer()
-    {
-        // Giả sử đối tượng player có component PlayerExperience
-        PlayerExperience playerExperience = FindObjectOfType<PlayerExperience>();
-        if (playerExperience != null)
-        {
-            playerExperience.AddExperience(experienceReward);
-        }
-        else
-        {
-            Debug.LogWarning("Không tìm thấy PlayerExperience trong scene!");
-        }
     }
-
+    //private void Die()
+    //{
+    //    ragdoll.ActivateRagroll();
+    //    //healthBar.gameObject.SetActive(false);
+        
+    //}
     private void Update()
     {
         blinkTimer -= Time.deltaTime;
@@ -103,4 +67,5 @@ public class Healthmelee : MonoBehaviour
         float intensity = lerp * blinkIntensity + 1.0f;
         skinnedMeshRenderer.material.color = Color.white * intensity;
     }
+
 }
