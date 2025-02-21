@@ -11,6 +11,8 @@ public class CharacterAiming : MonoBehaviour
     Camera mainCamera;
     public Rig aimLayer;
     RaycastWeapon weapon;
+    
+    
 
     void Start()
     {
@@ -18,6 +20,7 @@ public class CharacterAiming : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         weapon = GetComponentInChildren<RaycastWeapon>();
+       
     }
     void FixedUpdate()
     {
@@ -41,6 +44,7 @@ public class CharacterAiming : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             weapon.StartFiring();
+
         }
         if (weapon.isFiring)
         {

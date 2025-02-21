@@ -14,10 +14,11 @@ public class RaycastWeapon : MonoBehaviour
         public TrailRenderer tracer;
     }
     public bool isFiring = false;
-    public int fireRate = 25;
+    public int fireRate = 10;
     public float bulletSpeed = 1000.0f;
     public float bulletDrop = 0.0f;
-    public ParticleSystem [] muzzleFlash;   
+    public ParticleSystem [] muzzleFlash;
+    AudioSource m_shootingSound;
     public ParticleSystem hitEffect;
     public TrailRenderer bulletTracer;
 
@@ -50,12 +51,16 @@ public class RaycastWeapon : MonoBehaviour
         bullet.tracer.AddPosition(position);
         return bullet;
     }
-
+    void Start()
+    {
+        m_shootingSound = GetComponent<AudioSource>();
+    }
     public void StartFiring()
     {
         isFiring = true;
         accumulatedTime = 0.0f;
         FireBullet();
+
 
     }
     public void UpdateFiring( float deltaTime)
@@ -138,6 +143,7 @@ public class RaycastWeapon : MonoBehaviour
         foreach (var particle in muzzleFlash)
         {
             particle.Emit(1);
+            m_shootingSound.Play();
         }
 
         Vector3 velocity = (raycastDestination.position - raycastOrigin.position).normalized * bulletSpeed;
