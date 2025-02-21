@@ -122,6 +122,11 @@ public class RaycastWeapon : MonoBehaviour
             {
                 hitBoxMelee.OnRayCastHit(this, ray.direction);
             }
+            var hitBoxNPC2 = hitInfo.collider.GetComponent<HitBoxNPC2>();
+            if (hitBoxNPC2)
+            {
+                hitBoxNPC2.OnRayCastHit(this, ray.direction);
+            }
         }
              bullet.tracer.transform.position = end;
             

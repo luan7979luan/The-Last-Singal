@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Health : MonoBehaviour
+public class HealthNPC2 : MonoBehaviour
 {
     public float maxHealth;
     [HideInInspector]
@@ -15,7 +15,7 @@ public class Health : MonoBehaviour
 
     // Tạo hiệu ứng chớp sáng 
     SkinnedMeshRenderer skinnedMeshRenderer;
-    public MaterialPropertyBlock _materialPropertyBlock;
+    private MaterialPropertyBlock _materialPropertyBlock;
 
     public Animator animator;
 
@@ -30,6 +30,7 @@ public class Health : MonoBehaviour
 
     // Biến kiểm tra trạng thái chết để đảm bảo hành động Die chỉ được gọi một lần
     private bool isDead = false;
+
     // Tham chiếu đến NavMeshAgent nếu enemy sử dụng di chuyển theo NavMesh
     private NavMeshAgent navAgent;
 
@@ -43,15 +44,14 @@ public class Health : MonoBehaviour
         skinnedMeshRenderer.GetPropertyBlock(_materialPropertyBlock);
         healthBar = GetComponentInChildren<UIHealthBar>();
         currentHealth = maxHealth;
-
         // Lấy component NavMeshAgent nếu có
         navAgent = GetComponent<NavMeshAgent>();
 
         var rigidBodies = GetComponentsInChildren<Rigidbody>();
         foreach (var rigidBody in rigidBodies)
         {
-            HitBox hitBox = rigidBody.gameObject.AddComponent<HitBox>();
-            hitBox.health = this;
+            HitBoxNPC2 hitBoxNPC2 = rigidBody.gameObject.AddComponent<HitBoxNPC2>();
+            hitBoxNPC2.healthNPC2 = this;
         }
     }
 
@@ -80,10 +80,19 @@ public class Health : MonoBehaviour
 
             Destroy(gameObject, 3f); // Hủy vật thể sau 3 giây
         }
-
-        blinkTimer = blinkDuration;
+        // tạo blink khi bị đánh
+        StartCoroutine(MaterialBlink());
     }
 
+    // Hàm tạo blink 
+    IEnumerator MaterialBlink()
+    {
+        _materialPropertyBlock.SetFloat("_blink", 0.4f);
+        skinnedMeshRenderer.SetPropertyBlock(_materialPropertyBlock);
+        yield return new WaitForSeconds(0.2f);
+        _materialPropertyBlock.SetFloat("_blink", 0f);
+        skinnedMeshRenderer.SetPropertyBlock(_materialPropertyBlock);
+    }
     // Hàm cộng kinh nghiệm cho player
     public void AddExperienceToPlayer()
     {

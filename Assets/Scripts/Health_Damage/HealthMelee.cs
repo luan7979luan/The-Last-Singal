@@ -15,6 +15,8 @@ public class Healthmelee : MonoBehaviour
 
     // Tạo hiệu ứng chớp sáng 
     SkinnedMeshRenderer skinnedMeshRenderer;
+    private MaterialPropertyBlock _materialPropertyBlock;
+
     public Animator animator;
 
     UIHealthBar healthBar;
@@ -34,10 +36,13 @@ public class Healthmelee : MonoBehaviour
     {
         robotControllerMelee = GetComponent<RobotControllerMelee>();
         ragdoll = GetComponent<Ragdoll>();
+
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        _materialPropertyBlock = new MaterialPropertyBlock();
+        skinnedMeshRenderer.GetPropertyBlock(_materialPropertyBlock);
+
         healthBar = GetComponentInChildren<UIHealthBar>();
         currentHealth = maxHealth;
-
         // Lấy component NavMeshAgent nếu có
         navAgent = GetComponent<NavMeshAgent>();
 
@@ -68,8 +73,18 @@ public class Healthmelee : MonoBehaviour
 
             Destroy(gameObject, 3f); // Hủy vật thể sau 3 giây
         }
+        // tạo blink khi bị đánh
+        StartCoroutine(MaterialBlink());
+    }
 
-        blinkTimer = blinkDuration;
+    // Hàm tạo blink 
+    IEnumerator MaterialBlink()
+    {
+        _materialPropertyBlock.SetFloat("_blink", 0.4f);
+        skinnedMeshRenderer.SetPropertyBlock(_materialPropertyBlock);
+        yield return new WaitForSeconds(0.2f);
+        _materialPropertyBlock.SetFloat("_blink", 0f);
+        skinnedMeshRenderer.SetPropertyBlock(_materialPropertyBlock);
     }
 
     // Hàm cộng kinh nghiệm cho player
@@ -89,9 +104,9 @@ public class Healthmelee : MonoBehaviour
 
     private void Update()
     {
-        blinkTimer -= Time.deltaTime;
-        float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
-        float intensity = lerp * blinkIntensity + 1.0f;
-        skinnedMeshRenderer.material.color = Color.white * intensity;
+        //blinkTimer -= Time.deltaTime;
+        //float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
+        //float intensity = lerp * blinkIntensity + 1.0f;
+        //skinnedMeshRenderer.material.color = Color.white * intensity;
     }
 }
