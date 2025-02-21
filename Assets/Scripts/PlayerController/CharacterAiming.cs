@@ -31,7 +31,7 @@ public class CharacterAiming : MonoBehaviour
     {
         if (aimLayer)
         {
-            if (Input.GetButton("Fire2"))
+            if (Input.GetButton("Fire1"))
             {
                 aimLayer.weight += Time.deltaTime / aimDuration;
             }
