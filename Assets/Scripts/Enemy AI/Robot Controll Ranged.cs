@@ -16,19 +16,24 @@ public class RobotController : MonoBehaviour
     private float bullettime;
 
     public float shootingRange = 10f; // Tầm bắn của quái vật
-    public float attackDelay = 2f;    // Khoảng thời gian giữa các lần bắn
+    public float attackDelay = 0.5f;    // Khoảng thời gian giữa các lần bắn
     private float attackTimer;
     
    
 
-    void Start()
-    {
-        agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-        agent.speed = Random.Range(1f, 3f);
-        attackTimer = attackDelay;
-    }
+   void Start()
+{
+    agent = GetComponent<NavMeshAgent>();
+    animator = GetComponent<Animator>();
+    agent.speed = Random.Range(3f, 6f);
+    attackTimer = attackDelay;
 
+    // Nếu chưa gán Targetplayer từ Inspector, tìm đối tượng trong scene có tag "Player"
+    if (Targetplayer == null)
+    {
+        Targetplayer = GameObject.FindGameObjectWithTag("Player");
+    }
+}
     void FixedUpdate()
     {
         Move();

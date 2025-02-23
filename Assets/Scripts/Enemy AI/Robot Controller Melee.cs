@@ -24,13 +24,18 @@ public class RobotControllerMelee : MonoBehaviour
     }
 
     void Start()
+{
+    agent = GetComponent<NavMeshAgent>();
+    animator = GetComponent<Animator>();
+    agent.speed = Random.Range(3f, 6f);
+    attackTimer = attackDelay;
+
+    // Nếu chưa gán Targetplayer từ Inspector, tìm đối tượng trong scene có tag "Player"
+    if (Targetplayer == null)
     {
-        agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-        //health = GetComponent<PlayerHealth>();
-        agent.speed = Random.Range(1f, 3f);
-        attackTimer = attackDelay;
+        Targetplayer = GameObject.FindGameObjectWithTag("Player");
     }
+}
 
     void FixedUpdate()
     {

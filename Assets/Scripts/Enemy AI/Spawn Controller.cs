@@ -3,94 +3,90 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject enemyPrefab;           // Prefab của enemy
-    public Transform[] spawnPoints;          // Các điểm spawn cho enemy
-    public float spawnInterval = 1f;         // Thời gian giữa các lần spawn trong mỗi wave
-    public int initialEnemyCount = 5;        // Số lượng enemy spawn trong wave đầu tiên
-    public int maxEnemyCount = 50;           // Giới hạn số lượng enemy tối đa trong game
-    public float difficultyIncreaseTime = 60f; // Thời gian giữa mỗi lần tăng độ khó
-    public float difficultyMultiplier = 1.2f; // Hệ số tăng độ khó sau mỗi wave
-    public int minimumEnemyOnMap = 5;        // Số lượng enemy tối thiểu trên map
+    public GameObject[] enemyPrefabs;           // Mảng chứa 3 prefab enemy
+    public Transform[] spawnPoints;             // Các điểm spawn cho enemy
 
-    private int currentWave = 0;             // Biến theo dõi số wave hiện tại
-    private int currentEnemyCount = 0;       // Biến theo dõi số lượng enemy đã spawn trong wave
-    private float waveTimer = 0f;            // Thời gian để spawn wave mới
-    private int lastSpawnIndex = -1; // Theo dõi điểm spawn trước đó để tránh lặp lại
+    [Header("Cài đặt Spawn")]
+    public float initialSpawnInterval = 2f;      // Thời gian spawn ban đầu
+    public float minSpawnInterval = 0.5f;         // Thời gian spawn tối thiểu
+    public float spawnIntervalDecreaseRate = 0.01f; // Tốc độ giảm thời gian spawn theo thời gian
+    public float randomSpawnVariance = 0.2f;      // Độ biến động ngẫu nhiên của thời gian spawn
+    public float spawnPointCooldown = 1f;         // Thời gian chờ giữa các lần spawn tại cùng 1 điểm
+
+    private float currentSpawnInterval;
+    private float gameTimer = 0f;
+    private float[] spawnPointLastSpawnTime;    // Lưu thời gian spawn cuối cùng của từng spawn point
 
     void Start()
     {
-        // Bắt đầu spawn ngay khi game bắt đầu
-        StartCoroutine(SpawnWave());
-        StartCoroutine(CheckMinimumEnemies());
-    }
-
-    private IEnumerator SpawnWave()
-    {
-        while (true) // Lặp vô tận để liên tục spawn wave
+        currentSpawnInterval = initialSpawnInterval;
+        spawnPointLastSpawnTime = new float[spawnPoints.Length];
+        // Khởi tạo thời gian spawn của từng spawn point để có thể sử dụng ngay từ đầu
+        for (int i = 0; i < spawnPointLastSpawnTime.Length; i++)
         {
-            currentWave++; // Tăng số wave
-            currentEnemyCount = Mathf.Min(initialEnemyCount * currentWave, maxEnemyCount);
-
-            Debug.Log("Wave " + currentWave + " - Spawning " + currentEnemyCount + " enemies");
-
-            // Spawn các enemy trong wave
-            for (int i = 0; i < currentEnemyCount; i++)
-            {
-                SpawnEnemy();
-                yield return new WaitForSeconds(spawnInterval); // Đợi giữa các lần spawn
-            }
-
-            // Đợi trước khi bắt đầu wave tiếp theo
-            yield return new WaitForSeconds(difficultyIncreaseTime);
+            spawnPointLastSpawnTime[i] = -spawnPointCooldown;
         }
+        StartCoroutine(SpawnEnemies());
     }
 
-    private IEnumerator CheckMinimumEnemies()
+    void Update()
     {
-        while (true) // Kiểm tra liên tục
+        // Cập nhật thời gian game đã chạy
+        gameTimer += Time.deltaTime;
+        // Giảm dần thời gian spawn, nhưng không cho nhỏ hơn minSpawnInterval
+        currentSpawnInterval = Mathf.Max(initialSpawnInterval - (gameTimer * spawnIntervalDecreaseRate), minSpawnInterval);
+    }
+
+    private IEnumerator SpawnEnemies()
+    {
+        while (true)
         {
-            yield return new WaitForSeconds(2f); // Kiểm tra sau mỗi 2 giây
-
-            // Đếm số lượng enemy hiện có trên map
-            int currentEnemyOnMap = GameObject.FindGameObjectsWithTag("Enemy").Length;
-
-            // Spawn thêm nếu số lượng enemy dưới mức tối thiểu
-            if (currentEnemyOnMap < minimumEnemyOnMap)
-            {
-                int enemiesToSpawn = minimumEnemyOnMap - currentEnemyOnMap;
-                Debug.Log("Spawning additional " + enemiesToSpawn + " enemies to meet the minimum requirement.");
-
-                for (int i = 0; i < enemiesToSpawn; i++)
-                {
-                    SpawnEnemy();
-                }
-            }
+            SpawnEnemy();
+            // Thêm độ ngẫu nhiên cho thời gian spawn để tránh quá máy móc
+            float spawnDelay = currentSpawnInterval * Random.Range(1f - randomSpawnVariance, 1f + randomSpawnVariance);
+            yield return new WaitForSeconds(spawnDelay);
         }
     }
 
     private void SpawnEnemy()
     {
-       if (enemyPrefab != null && spawnPoints.Length > 0)
-    {
-        // Chọn một điểm spawn ngẫu nhiên, tránh trùng với lần trước
-        int randomIndex;
-        do
+        if (enemyPrefabs != null && enemyPrefabs.Length > 0 && spawnPoints != null && spawnPoints.Length > 0)
         {
-            randomIndex = Random.Range(0, spawnPoints.Length);
-        } while (randomIndex == lastSpawnIndex && spawnPoints.Length > 1);
+            // Chọn enemy prefab ngẫu nhiên từ mảng
+            int prefabIndex = Random.Range(0, enemyPrefabs.Length);
+            GameObject selectedEnemyPrefab = enemyPrefabs[prefabIndex];
 
-        lastSpawnIndex = randomIndex; // Cập nhật điểm spawn cuối cùng
+            // Lấy spawn point có cooldown đã hết hạn
+            int spawnIndex = GetAvailableSpawnPoint();
+            if (spawnIndex == -1)
+            {
+                // Nếu không có spawn point nào sẵn sàng, chọn ngẫu nhiên (tránh bị treo vòng lặp)
+                spawnIndex = Random.Range(0, spawnPoints.Length);
+            }
 
-        Transform spawnPoint = spawnPoints[randomIndex];
+            // Cập nhật lại thời gian sử dụng của spawn point đã chọn
+            spawnPointLastSpawnTime[spawnIndex] = Time.time;
 
-        // Spawn enemy tại điểm spawn đã chọn
-        Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
-
-        Debug.Log($"Spawned enemy at: {spawnPoint.position} (Spawn Point {randomIndex})");
+            Transform spawnPoint = spawnPoints[spawnIndex];
+            Instantiate(selectedEnemyPrefab, spawnPoint.position, spawnPoint.rotation);
+            Debug.Log($"Spawned enemy {selectedEnemyPrefab.name} at: {spawnPoint.position} (Spawn Point {spawnIndex})");
+        }
+        else
+        {
+            Debug.LogWarning("EnemyPrefabs hoặc spawnPoints chưa được gán!");
+        }
     }
-    else
+
+    // Hàm kiểm tra và trả về spawn point có cooldown đã hết hạn
+    private int GetAvailableSpawnPoint()
     {
-        Debug.LogWarning("EnemyPrefab hoặc spawnPoints chưa được gán!");
-    }
+        for (int i = 0; i < spawnPoints.Length; i++)
+        {
+            if (Time.time - spawnPointLastSpawnTime[i] >= spawnPointCooldown)
+            {
+                return i;
+            }
+        }
+        return -1; // Trả về -1 nếu không có spawn point nào đủ điều kiện
     }
 }
