@@ -1,107 +1,152 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System.Collections;
 
-public class UpgradeManager : MonoBehaviour
+public class UpgradeUIController : MonoBehaviour
 {
-    public int upgradePoints = 5; // Số điểm nâng cấp có sẵn
-    public float playerSpeed = 5f; // Tốc độ mặc định
-    public int playerDamage = 10; // Damage mặc định
-    public int playerMaxHealth = 100; // Máu tối đa mặc định
+    // Panel UI chứa các tùy chọn nâng cấp
+    public GameObject upgradeUIPanel;
+    
+    // Tham chiếu đến script RaycastWeapon để tăng damage
+    public RaycastWeapon raycastWeapon;
+    // Tham chiếu đến script PlayerHealth để tăng max HP
+    public PlayerHealth playerHealth;
+    // Tham chiếu đến script PlayerExperience để lấy điểm nâng cấp
+    public PlayerExperience playerExperience;
+    
+    // Nút UI dùng để tăng damage
+    public Button increaseDamageButton;
+    // Nút UI dùng để tăng HP
+    public Button increaseHPButton;
 
-    public GameObject upgradePanel; // UI nâng cấp
-    public Button speedButton; // Nút tăng tốc độ
-    public Button damageButton; // Nút tăng damage
-    public Button healthButton; // Nút tăng máu
-
-    private bool isUpgradeMenuActive = false; // Trạng thái menu nâng cấp
-     public GameObject playerHUD;
+    // Các UI khác cần ẩn khi bật panel nâng cấp (ví dụ: HUD, mini-map, v.v.)
+    public GameObject[] uiToHide;
+    
+    // Text hiển thị thông báo lỗi khi không đủ điểm nâng cấp (sử dụng TextMeshProUGUI)
+    public TextMeshProUGUI errorText;
+    // Thời gian hiển thị thông báo lỗi (sử dụng WaitForSecondsRealtime vì Time.timeScale = 0)
+    public float errorDisplayTime = 2f;
 
     void Start()
     {
-        // Gán sự kiện cho các nút
-        speedButton.onClick.AddListener(IncreaseSpeed);
-        damageButton.onClick.AddListener(IncreaseDamage);
-        healthButton.onClick.AddListener(IncreaseHealth);
+        // Ẩn panel nâng cấp khi khởi tạo
+        if (upgradeUIPanel != null)
+            upgradeUIPanel.SetActive(false);
 
-        // Ẩn panel nâng cấp lúc đầu
-        upgradePanel.SetActive(false);
+        // Gán sự kiện cho các nút
+        if (increaseDamageButton != null)
+            increaseDamageButton.onClick.AddListener(OnIncreaseDamage);
+        if (increaseHPButton != null)
+            increaseHPButton.onClick.AddListener(OnIncreaseHP);
+
+        // Đảm bảo ban đầu con trỏ bị ẩn và được khóa lại
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        // Ẩn thông báo lỗi khi khởi tạo
+        if (errorText != null)
+            errorText.gameObject.SetActive(false);
     }
 
     void Update()
     {
-        // Nhấn phím U để mở menu nâng cấp
+        // Khi nhấn phím U, bật/toggle panel nâng cấp và ẩn/hiện các UI khác
         if (Input.GetKeyDown(KeyCode.U))
         {
-            ToggleUpgradeMenu();
+            ToggleUpgradePanel();
         }
     }
 
-    void ToggleUpgradeMenu()
+    void ToggleUpgradePanel()
     {
-        isUpgradeMenuActive = !isUpgradeMenuActive;
+        if (upgradeUIPanel != null)
+        {
+            bool isActive = !upgradeUIPanel.activeSelf;
+            upgradeUIPanel.SetActive(isActive);
 
-        if (isUpgradeMenuActive)
-        {
-            // Hiện panel và dừng game
-            playerHUD.SetActive(false);
-            upgradePanel.SetActive(true);
-            Cursor.lockState = CursorLockMode.None; // Hiện chuột
-            Cursor.visible = true;
-            Time.timeScale = 0f; // Tạm dừng game
-        }
-        else
-        {
-            // Ẩn panel và tiếp tục game
-            playerHUD.SetActive(true);
-            upgradePanel.SetActive(false);
-            Cursor.lockState = CursorLockMode.Locked; // Ẩn chuột
-            Cursor.visible = false;
-            Time.timeScale = 1f; // Tiếp tục game
+            // Nếu bật panel, dừng trò chơi; nếu tắt, tiếp tục trò chơi
+            Time.timeScale = isActive ? 0f : 1f;
+
+            // Ẩn/hiện các UI khác khi panel nâng cấp bật/tắt
+            if (uiToHide != null)
+            {
+                foreach (GameObject ui in uiToHide)
+                {
+                    if (ui != null)
+                        ui.SetActive(!isActive);
+                }
+            }
+
+            // Kiểm soát con trỏ: bật khi panel mở, ẩn khi panel tắt
+            if (isActive)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
     }
 
-    // Hàm tăng tốc độ chạy
-    public void IncreaseSpeed()
+    // Hàm được gọi khi nhấn nút tăng damage
+    void OnIncreaseDamage()
     {
-        if (upgradePoints > 0)
+        if (playerExperience != null && playerExperience.availableUpgradePoints > 0)
         {
-            playerSpeed += 1f; // Tăng tốc độ chạy lên 1 đơn vị
-            upgradePoints--;
-            Debug.Log("Tốc độ hiện tại: " + playerSpeed);
+            // Trừ 1 điểm nâng cấp
+            playerExperience.availableUpgradePoints--;
+            // Tăng damage
+            if (raycastWeapon != null)
+            {
+                raycastWeapon.damage += 10f;
+                Debug.Log("Damage increased to: " + raycastWeapon.damage);
+            }
+            // Cập nhật lại giao diện điểm nâng cấp
+            playerExperience.UpdateUpgradePointsUI();
         }
         else
         {
-            Debug.Log("Không đủ điểm nâng cấp!");
+            // Hiển thị thông báo lỗi nếu không đủ điểm nâng cấp
+            StartCoroutine(ShowErrorMessage("Not enough points to upgrade"));
         }
     }
 
-    // Hàm tăng damage súng
-    public void IncreaseDamage()
+    // Hàm được gọi khi nhấn nút tăng HP
+    void OnIncreaseHP()
     {
-        if (upgradePoints > 0)
+        if (playerExperience != null && playerExperience.availableUpgradePoints > 0)
         {
-            playerDamage += 5; // Tăng thêm 5 damage
-            upgradePoints--;
-            Debug.Log("Damage hiện tại: " + playerDamage);
+            // Trừ 1 điểm nâng cấp
+            playerExperience.availableUpgradePoints--;
+            // Gọi phương thức UpgradeHealth của PlayerHealth để tăng health và cập nhật slider
+            if (playerHealth != null)
+            {
+                playerHealth.UpgradeHealth(50f);
+                Debug.Log("Max Health increased to: " + playerHealth.maxHealth);
+            }
+            // Cập nhật lại giao diện điểm nâng cấp
+            playerExperience.UpdateUpgradePointsUI();
         }
         else
         {
-            Debug.Log("Không đủ điểm nâng cấp!");
+            // Hiển thị thông báo lỗi nếu không đủ điểm nâng cấp
+            StartCoroutine(ShowErrorMessage("Not enough points to upgrade"));
         }
     }
 
-    // Hàm tăng máu
-    public void IncreaseHealth()
+    IEnumerator ShowErrorMessage(string message)
     {
-        if (upgradePoints > 0)
+        if (errorText != null)
         {
-            playerMaxHealth += 10; // Tăng thêm 10 máu
-            upgradePoints--;
-            Debug.Log("Máu tối đa hiện tại: " + playerMaxHealth);
-        }
-        else
-        {
-            Debug.Log("Không đủ điểm nâng cấp!");
+            errorText.text = message;
+            errorText.gameObject.SetActive(true);
+            // Sử dụng WaitForSecondsRealtime vì Time.timeScale có thể = 0
+            yield return new WaitForSecondsRealtime(errorDisplayTime);
+            errorText.gameObject.SetActive(false);
         }
     }
 }

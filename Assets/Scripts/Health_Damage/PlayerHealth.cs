@@ -62,6 +62,20 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    // Phương thức nâng cấp health: tăng maxHealth và currentHealth theo amount truyền vào
+    public void UpgradeHealth(float amount)
+    {
+        maxHealth += amount;
+        currentHealth += amount;  // Nếu bạn muốn tăng currentHealth theo amount
+        // Nếu muốn currentHealth được khôi phục hoàn toàn, bạn có thể thay bằng: currentHealth = maxHealth;
+        if (healthSlider != null)
+        {
+            healthSlider.maxValue = maxHealth;
+            healthSlider.value = currentHealth;
+        }
+        Debug.Log("Health upgraded: maxHealth = " + maxHealth + ", currentHealth = " + currentHealth);
+    }
+
     void Die()
     {
         Debug.Log("Player đã chết!");
