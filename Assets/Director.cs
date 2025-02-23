@@ -18,9 +18,13 @@ public class Director : MonoBehaviour
 
     [Header("Director Settings")]
     public float initialBudget = 5f;         // Ngân sách ban đầu
-    public float budgetIncreaseRate = 0.5f;    // Lượng ngân sách tăng mỗi giây
+    public float budgetIncreaseRate = 0.5f;    // Lượng ngân sách tăng mỗi giây (tăng dần theo thời gian)
     public int maxEnemiesOnMap = 30;         // Số lượng enemy tối đa trên map
     public float maxOverdraft = 2f;          // Giới hạn nợ ngân sách tối đa (ngân sách có thể âm đến mức này)
+
+    [Header("Discrete Budget Boost")]
+    public float discreteBudgetBoost = 10f;  // Lượng ngân sách tăng đột biến
+    public float boostInterval = 300f;       // Khoảng thời gian (giây) giữa các lần tăng đột biến (5 phút)
 
     [Header("Spawn Timing")]
     public float spawnCheckInterval = 0.5f;  // Khoảng thời gian giữa các lần kiểm tra spawn
@@ -40,6 +44,7 @@ public class Director : MonoBehaviour
             spawnPointLastUsed[i] = -spawnPointCooldown;
         }
         StartCoroutine(DirectorLoop());
+        StartCoroutine(BoostBudgetPeriodically());
     }
 
     void Update()
@@ -48,11 +53,22 @@ public class Director : MonoBehaviour
         currentBudget += budgetIncreaseRate * Time.deltaTime;
     }
 
+    // Coroutine để tăng ngân sách đột biến sau mỗi boostInterval (5 phút)
+    private IEnumerator BoostBudgetPeriodically()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(boostInterval);
+            currentBudget += discreteBudgetBoost;
+            Debug.Log($"Discrete budget boost applied! New budget: {currentBudget}");
+        }
+    }
+
     private IEnumerator DirectorLoop()
     {
         while (true)
         {
-            // Giới hạn số lượng enemy trên map
+            // Kiểm tra số lượng enemy hiện có trên map
             int currentEnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
             if (currentEnemyCount < maxEnemiesOnMap)
             {
@@ -92,7 +108,7 @@ public class Director : MonoBehaviour
                         }
                     }
 
-                    // Kiểm tra spawn point khả dụng (không nằm trong cooldown)
+                    // Chọn ngẫu nhiên một spawn point có cooldown đã hết hạn
                     int spawnIndex = GetAvailableSpawnPoint();
                     if (spawnIndex == -1)
                     {

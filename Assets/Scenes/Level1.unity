@@ -12232,14 +12232,14 @@ MonoBehaviour:
   - enemyPrefab: {fileID: 6445800173694162270, guid: 881168efad27c4245833d863f2f6ce73,
       type: 3}
     cost: 5
-    weight: 2
+    weight: 1
   - enemyPrefab: {fileID: 6681617708111320118, guid: a8f6c28f1773c974ca5b4d94196113ce,
       type: 3}
-    cost: 20
+    cost: 10
     weight: 1
   - enemyPrefab: {fileID: 1836861853697822186, guid: 6792b07ca714a9c42a849e0609a6727b,
       type: 3}
-    cost: 50
+    cost: 30
     weight: 1
   spawnPoints:
   - {fileID: 1679416821}
@@ -12254,7 +12254,7 @@ MonoBehaviour:
   maxEnemiesOnMap: 30
   maxOverdraft: 2
   spawnCheckInterval: 0.5
-  spawnPointCooldown: 1
+  spawnPointCooldown: 3
 --- !u!1 &1979009410 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3881687657502562237, guid: 69463d1bf32cf194391405856bb74040,
