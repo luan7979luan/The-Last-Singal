@@ -2528,7 +2528,7 @@ MonoBehaviour:
   Targetplayer: {fileID: 0}
   damage: 50
   attackRange: 2
-  attackDelay: 2
+  attackDelay: 1
 --- !u!114 &1433460155884240123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2576,7 +2576,7 @@ MonoBehaviour:
   healthSlider: {fileID: 7919988733883169125}
   levelText: {fileID: 4820240478506985312}
   enemyLevel: 1
-  levelInterval: 120
+  levelInterval: 60
   healthIncreasePerLevel: 50
 --- !u!1 &7356449322562146858 stripped
 GameObject:

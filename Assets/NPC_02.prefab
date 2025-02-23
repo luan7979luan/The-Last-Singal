@@ -1236,11 +1236,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Targetplayer: {fileID: 0}
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 8855858632204144991, guid: a37f3e44b346b7346bba38d26bfdfbf0,
+    type: 3}
   firePoint: {fileID: 0}
-  timer: 5
+  timer: 1
   shootingRange: 10
-  attackDelay: 2
+  attackDelay: 1
 --- !u!114 &2076360106634429404
 MonoBehaviour:
   m_ObjectHideFlags: 0

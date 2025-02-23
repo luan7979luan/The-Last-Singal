@@ -2250,7 +2250,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8855858632204144991, guid: a37f3e44b346b7346bba38d26bfdfbf0,
     type: 3}
   firePoint: {fileID: 6944788773548292415}
-  timer: 5
+  timer: 1
   shootingRange: 10
   attackDelay: 1
 --- !u!114 &871303906409742237
@@ -2281,7 +2281,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   animator: {fileID: 7297329167989223460}
-  blinkIntensity: 30
+  blinkIntensity: 10
   blinkDuration: 0.5
   experienceReward: 50
 --- !u!114 &5901461996855341917
@@ -2300,7 +2300,7 @@ MonoBehaviour:
   healthSlider: {fileID: 4384465472079088759}
   levelText: {fileID: 1429150687590142578}
   enemyLevel: 1
-  levelInterval: 120
+  levelInterval: 60
   healthIncreasePerLevel: 50
 --- !u!1 &6477809524201063740
 GameObject:

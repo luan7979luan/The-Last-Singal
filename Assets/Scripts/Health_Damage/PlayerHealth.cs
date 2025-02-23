@@ -1,40 +1,70 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public float maxHealth;
-    public float currentHealth;
+    public float maxHealth = 100f;
+    private float currentHealth;
 
-    private void Awake()
+    public Slider healthSlider;
+    
+    // UI Image dùng để hiển thị hiệu ứng damage (phải đảm bảo kéo thả đúng Image từ UI vào Inspector)
+    public Image damageImage;
+    // Tốc độ fade out của hiệu ứng
+    public float flashSpeed = 5f;
+    // Màu hiển thị khi nhận damage (màu đỏ với alpha cao)
+    public Color flashColor = new Color(1f, 0f, 0f, 0.5f);
+
+    void Start()
     {
         currentHealth = maxHealth;
+        if (healthSlider != null)
+        {
+            healthSlider.maxValue = maxHealth;
+            healthSlider.value = currentHealth;
+        }
+        if (damageImage != null)
+        {
+            // Bắt đầu với màu trong suốt
+            damageImage.color = Color.clear;
+        }
+    }
+
+    void Update()
+    {
+        // Fade dần hiệu ứng damage về trong suốt
+        if (damageImage != null)
+        {
+            damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
+        }
     }
 
     public void TakeDamage(float damage)
     {
-        if (currentHealth <= 0) return;
         currentHealth -= damage;
+        Debug.Log("Player bị dame: " + damage + ", máu còn lại: " + currentHealth);
+
+        if (healthSlider != null)
+        {
+            healthSlider.value = currentHealth;
+        }
+
+        // Khi bị dame, đặt màu cho damageImage để hiển thị hiệu ứng flash
+        if (damageImage != null)
+        {
+            damageImage.color = flashColor;
+        }
+
         if (currentHealth <= 0)
         {
-            currentHealth = 0;
+            Die();
         }
-
     }
 
-    public float GetHealth() => currentHealth; //lamda expression
-
-    //Hàm hồi máu
-    public void Heal(float healAmount)
+    void Die()
     {
-        if (currentHealth >= maxHealth) return;
-        currentHealth += healAmount;
-        if (currentHealth > maxHealth)
-        {
-            currentHealth = maxHealth;
-        }
-
+        Debug.Log("Player đã chết!");
+        // Thêm các xử lý khi Player chết (chuyển cảnh, respawn, v.v.)
     }
-
 }

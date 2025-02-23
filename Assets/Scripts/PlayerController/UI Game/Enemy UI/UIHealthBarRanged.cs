@@ -61,29 +61,27 @@ public class UIHealthBarRanged : MonoBehaviour
 
     // Hàm tăng cấp quái
     void LevelUp()
+{
+    enemyLevel++;
+
+    if (monsterHealth != null)
     {
-        enemyLevel++;
+        monsterHealth.maxHealth += healthIncreasePerLevel;
+        // Cho quái hồi đầy sau khi tăng cấp:
+        monsterHealth.currentHealth = monsterHealth.maxHealth;
 
-        // Tăng máu tối đa của quái theo cấp (cộng thêm 50)
-        if (monsterHealth != null)
+        if (healthSlider != null)
         {
-            monsterHealth.maxHealth += healthIncreasePerLevel;
-            // Nếu muốn quái có máu đầy sau khi tăng cấp, bạn có thể bật dòng sau:
-            // monsterHealth.currentHealth = monsterHealth.maxHealth;
-
-            // Cập nhật lại giá trị max của Slider
-            if (healthSlider != null)
-            {
-                healthSlider.maxValue = monsterHealth.maxHealth;
-            }
+            healthSlider.maxValue = monsterHealth.maxHealth;
         }
-
-        // Cập nhật hiển thị cấp (định dạng 2 chữ số)
-        if (levelText != null)
-        {
-            levelText.text = enemyLevel.ToString("00");
-        }
-
-        Debug.Log("Quái đã tăng cấp lên: " + enemyLevel + " với máu tối đa mới: " + monsterHealth.maxHealth);
     }
+
+    if (levelText != null)
+    {
+        levelText.text = enemyLevel.ToString("00");
+    }
+
+    Debug.Log("Quái đã tăng cấp lên: " + enemyLevel + " với máu tối đa mới: " + monsterHealth.maxHealth);
+}
+
 }

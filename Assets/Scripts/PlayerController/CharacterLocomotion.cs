@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterLocomotion : MonoBehaviour
@@ -11,6 +9,9 @@ public class CharacterLocomotion : MonoBehaviour
     public float airControl;
     public float jumpDamp;
     public float groundSpeed;
+    public float dodgeDistance = 5f;  // Khoảng cách dodge
+    public string dodgeStateName = "Dodge"; // Tên state dodge trong Animator (ngoài blend tree)
+    public float dodgeDuration = 0.5f; // Thời gian dodge, có thể điều chỉnh theo clip dodge
 
     Animator animator;
     CharacterController cc;
@@ -19,6 +20,7 @@ public class CharacterLocomotion : MonoBehaviour
     Vector3 rootMotion;
     Vector3 velocity;
     bool isJumping;
+    bool isDodging = false;
     int isSprintingParam = Animator.StringToHash("isSprinting");
 
     void Start()
@@ -29,6 +31,7 @@ public class CharacterLocomotion : MonoBehaviour
 
     void Update()
     {
+        // Nhận giá trị input
         input.x = Input.GetAxis("Horizontal");
         input.y = Input.GetAxis("Vertical");
 
@@ -40,7 +43,15 @@ public class CharacterLocomotion : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
+        }
 
+        // Nếu nhấn phím Z và nhân vật không đang nhảy, không đang dodge
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            if (!isJumping && !isDodging)
+            {
+                StartCoroutine(PerformDodge());
+            }
         }
     }
 
@@ -54,13 +65,14 @@ public class CharacterLocomotion : MonoBehaviour
     {
         rootMotion += animator.deltaPosition;
     }
+    
     private void FixedUpdate()
     {
-        if (isJumping) // is in air state
+        if (isJumping) // Trạng thái không trung
         {
             UpdateInAir();
         }
-        else // is grounded state
+        else // Trạng thái trên mặt đất
         {
             UpdateOnGround();
         }
@@ -70,7 +82,7 @@ public class CharacterLocomotion : MonoBehaviour
     {
         velocity.y -= gravity * Time.fixedDeltaTime;
         Vector3 displacement = velocity * Time.fixedDeltaTime;
-        displacement += CaculateAirControl();
+        displacement += CalculateAirControl();
         cc.Move(displacement);
         isJumping = !cc.isGrounded;
         rootMotion = Vector3.zero;
@@ -79,10 +91,10 @@ public class CharacterLocomotion : MonoBehaviour
 
     private void UpdateOnGround()
     {
-        Vector3 StepForwardAmount = rootMotion * groundSpeed;
-        Vector3 StepDownAmount = Vector3.down * stepDown;
+        Vector3 stepForwardAmount = rootMotion * groundSpeed;
+        Vector3 stepDownAmount = Vector3.down * stepDown;
         
-        cc.Move(StepForwardAmount + StepDownAmount);
+        cc.Move(stepForwardAmount + stepDownAmount);
         rootMotion = Vector3.zero;
 
         if (!cc.isGrounded)
@@ -91,9 +103,9 @@ public class CharacterLocomotion : MonoBehaviour
         }
     }
 
-    Vector3 CaculateAirControl()
+    Vector3 CalculateAirControl()
     {
-        return((transform.forward * input.y) + (transform.right * input.x)) * (airControl / 100);
+        return ((transform.forward * input.y) + (transform.right * input.x)) * (airControl / 100);
     }
 
     void Jump()
@@ -102,7 +114,6 @@ public class CharacterLocomotion : MonoBehaviour
         {
             float jumpVelocity = Mathf.Sqrt(2 * gravity * jumHeight);
             SetInAir(jumpVelocity);
-
         }
     }
 
@@ -113,4 +124,28 @@ public class CharacterLocomotion : MonoBehaviour
         velocity.y = jumpVelocity;
         animator.SetBool("isJumping", true);
     }
+
+    // Coroutine thực hiện dodge
+    IEnumerator PerformDodge()
+{
+    isDodging = true;
+    animator.Play(dodgeStateName, 0, 0f);
+
+    // Tính toán hướng dodge dựa vào input
+    Vector3 dodgeDir = transform.forward; // Mặc định là dodge về phía trước
+    if (Mathf.Abs(input.x) > 0.1f || Mathf.Abs(input.y) > 0.1f)
+    {
+        dodgeDir = ((transform.forward * input.y) + (transform.right * input.x)).normalized;
+    }
+
+    // Di chuyển nhân vật theo hướng dodge
+    Vector3 dodgeMovement = dodgeDir * dodgeDistance;
+    cc.Move(dodgeMovement);
+
+    // Chờ hết thời gian dodge (dodgeDuration)
+    yield return new WaitForSeconds(dodgeDuration);
+
+    isDodging = false;
+}
+
 }

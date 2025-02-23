@@ -68,8 +68,8 @@ public class UIHealthBarMelee : MonoBehaviour
         if (robotHealth != null)
         {
             robotHealth.maxHealth += healthIncreasePerLevel;
-            // (Tùy chọn) Nếu muốn cho robot hồi đầy máu sau khi tăng cấp, bỏ comment dòng sau:
-            // robotHealth.currentHealth = robotHealth.maxHealth;
+            // Hồi đầy máu sau khi tăng cấp:
+            robotHealth.currentHealth = robotHealth.maxHealth;
 
             // Cập nhật lại giá trị max của slider
             if (healthSlider != null)

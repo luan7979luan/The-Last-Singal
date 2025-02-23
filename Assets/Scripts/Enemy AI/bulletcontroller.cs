@@ -1,25 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class bulletcontroller : MonoBehaviour
+public class BulletController : MonoBehaviour
 {
-   public float speed = 20f;
-    public Rigidbody rb;
+    public float damage = 10f; // Số dame mà viên đạn gây ra
 
-    void Start()
+    // Phương thức này được gọi khi viên đạn va chạm với một collider khác
+    private void OnCollisionEnter(Collision collision)
     {
-        // Di chuyển đạn theo hướng forward
-        rb.velocity = transform.forward * speed;
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        // Xử lý va chạm với các đối tượng (ví dụ: người chơi)
-        if (other.CompareTag("Player"))
+        // Nếu va chạm với đối tượng có tag "Player"
+        if (collision.gameObject.CompareTag("Player"))
         {
-            // Gây sát thương cho người chơi hoặc thực hiện các hành động khác
-            Destroy(gameObject);  // Xoá viên đạn sau khi va chạm
+            // Giả sử đối tượng người chơi có script PlayerHealth với phương thức TakeDamage
+            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+            }
         }
+        // Hủy viên đạn sau khi va chạm (có thể thay đổi tùy nhu cầu)
+        Destroy(gameObject);
     }
 }

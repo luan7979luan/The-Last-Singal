@@ -14,7 +14,7 @@ public class RobotControllerMelee : MonoBehaviour
     //public NPC_DamageZone _damageZone;
 
     public float attackRange = 2f;   // Tầm tấn công cận chiến của quái vật
-    public float attackDelay = 2f;   // Khoảng thời gian giữa các lần tấn công
+    public float attackDelay = 0.5f;   // Khoảng thời gian giữa các lần tấn công
     private float attackTimer;
 
     private void Awake()

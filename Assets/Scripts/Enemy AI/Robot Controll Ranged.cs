@@ -12,10 +12,10 @@ public class RobotController : MonoBehaviour
     public GameObject bulletPrefab;   // Thêm prefab viên đạn
     public Transform firePoint;       // Điểm bắn đạn ra
 
-    public float timer = 5;
+    public float timer = 1;
     private float bullettime;
 
-    public float shootingRange = 10f; // Tầm bắn của quái vật
+    public float shootingRange = 20f; // Tầm bắn của quái vật
     public float attackDelay = 0.5f;    // Khoảng thời gian giữa các lần bắn
     private float attackTimer;
     

@@ -56,19 +56,18 @@ public class Director : MonoBehaviour
             int currentEnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
             if (currentEnemyCount < maxEnemiesOnMap)
             {
-                // Thay vì lọc chỉ enemy có chi phí <= ngân sách, ta xem xét toàn bộ enemy và tính trọng số hiệu quả
+                // Tính toán danh sách enemy có thể spawn dựa trên ngân sách và chi phí của chúng
                 List<EnemySpawnData> potentialEnemies = new List<EnemySpawnData>();
                 List<float> effectiveWeights = new List<float>();
                 float totalWeight = 0f;
 
                 foreach (EnemySpawnData data in enemySpawnPool)
                 {
-                    // Nếu spawn enemy này sẽ làm ngân sách vượt quá mức nợ cho phép, thì bỏ qua
+                    // Nếu spawn enemy này sẽ khiến ngân sách vượt quá mức nợ cho phép, thì bỏ qua
                     if (currentBudget - data.cost < -maxOverdraft)
                         continue;
 
                     // Tính factor dựa trên tỉ lệ ngân sách hiện tại so với chi phí enemy
-                    // Nếu ngân sách thấp, factor giảm xuống (nhưng tối thiểu 0.1 để vẫn có cơ hội spawn)
                     float factor = currentBudget / data.cost;
                     factor = Mathf.Clamp(factor, 0.1f, 1f);
                     float effectiveWeight = data.weight * factor;
@@ -114,14 +113,19 @@ public class Director : MonoBehaviour
         }
     }
 
-    // Hàm trả về index của spawn point đã hết cooldown, nếu không có thì trả về -1
+    // Hàm chọn ngẫu nhiên một spawn point có cooldown đã hết hạn
     private int GetAvailableSpawnPoint()
     {
+        List<int> availableIndices = new List<int>();
         for (int i = 0; i < spawnPoints.Length; i++)
         {
             if (Time.time - spawnPointLastUsed[i] >= spawnPointCooldown)
-                return i;
+            {
+                availableIndices.Add(i);
+            }
         }
-        return -1;
+        if (availableIndices.Count == 0)
+            return -1;
+        return availableIndices[Random.Range(0, availableIndices.Count)];
     }
 }
