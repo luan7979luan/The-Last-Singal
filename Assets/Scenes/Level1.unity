@@ -10690,6 +10690,18 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &1136181211 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4029921512646042999, guid: f479e6d1aeef6f4479e71f414adc7627,
+    type: 3}
+  m_PrefabInstance: {fileID: 38233554}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1139178545 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 748984385368473911, guid: d2099f505e4515644bd8be3774ed2001,
@@ -11166,7 +11178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e270bf7631d960348a0edd731da6ffdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 300
   currentHealth: 0
   animator: {fileID: 1164736213}
   blinkIntensity: 0.5
@@ -11191,6 +11203,20 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 2041599896}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1164736214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164736203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87bb4bc3ea9e1434e895d4aceaa46d90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcHealth: {fileID: 1164736211}
+  healthSlider: {fileID: 1136181211}
 --- !u!1 &1169078966 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3785159954401396260, guid: 55232e904b43acf4f85fabc8418bd3b7,
@@ -17009,7 +17035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c734631075eadb244b3fd4bd749cfe5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 500
   currentHealth: 0
   animator: {fileID: 1828437926}
   blinkIntensity: 50
@@ -23942,6 +23968,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1164736211}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d2099f505e4515644bd8be3774ed2001,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1164736214}
     - targetCorrespondingSourceObject: {fileID: 6587778187433576917, guid: d2099f505e4515644bd8be3774ed2001,
         type: 3}
       insertIndex: -1
