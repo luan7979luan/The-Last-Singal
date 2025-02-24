@@ -6,8 +6,10 @@ public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 100f;
     private float currentHealth;
-
+    Ragdoll ragdoll;
     public Slider healthSlider;
+
+    killCam KillCamera;
     
     // UI Image dùng để hiển thị hiệu ứng damage (phải đảm bảo kéo thả đúng Image từ UI vào Inspector)
     public Image damageImage;
@@ -18,6 +20,9 @@ public class PlayerHealth : MonoBehaviour
 
     void Start()
     {
+        ragdoll = GetComponent<Ragdoll>();
+        KillCamera = FindObjectOfType<killCam>();
+
         currentHealth = maxHealth;
         if (healthSlider != null)
         {
@@ -79,6 +84,8 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         Debug.Log("Player đã chết!");
+        ragdoll.ActivateRagroll();
+        KillCamera.EnableKillCam();
         // Thêm các xử lý khi Player chết (chuyển cảnh, respawn, v.v.)
     }
 }
