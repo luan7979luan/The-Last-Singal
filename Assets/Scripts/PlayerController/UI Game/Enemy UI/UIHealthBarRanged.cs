@@ -13,11 +13,8 @@ public class UIHealthBarRanged : MonoBehaviour
     // TMP_Text hiển thị cấp của quái (Text Mesh Pro)
     public TMP_Text levelText;
 
-    // Các biến quản lý cấp và thời gian tăng cấp
+    // Cấp của enemy (có thể đặt cố định nếu bạn không sử dụng logic tăng cấp)
     public int enemyLevel = 1;
-    public float levelInterval = 120f; // 2 phút (120 giây)
-    private float levelTimer = 0f;
-    public int healthIncreasePerLevel = 50; // Mỗi cấp tăng thêm 50 máu
 
     void Start()
     {
@@ -49,39 +46,5 @@ public class UIHealthBarRanged : MonoBehaviour
         {
             healthSlider.value = monsterHealth.currentHealth;
         }
-
-        // Cập nhật bộ đếm thời gian
-        levelTimer += Time.deltaTime;
-        if (levelTimer >= levelInterval)
-        {
-            LevelUp();
-            levelTimer = 0f;
-        }
     }
-
-    // Hàm tăng cấp quái
-    void LevelUp()
-{
-    enemyLevel++;
-
-    if (monsterHealth != null)
-    {
-        monsterHealth.maxHealth += healthIncreasePerLevel;
-        // Cho quái hồi đầy sau khi tăng cấp:
-        monsterHealth.currentHealth = monsterHealth.maxHealth;
-
-        if (healthSlider != null)
-        {
-            healthSlider.maxValue = monsterHealth.maxHealth;
-        }
-    }
-
-    if (levelText != null)
-    {
-        levelText.text = enemyLevel.ToString("00");
-    }
-
-    Debug.Log("Quái đã tăng cấp lên: " + enemyLevel + " với máu tối đa mới: " + monsterHealth.maxHealth);
-}
-
 }

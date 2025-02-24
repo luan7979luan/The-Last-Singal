@@ -13,11 +13,8 @@ public class UIHealthBarMelee : MonoBehaviour
     // TMP_Text hiển thị cấp của robot melee
     public TMP_Text levelText;
 
-    // Các biến quản lý cấp và thời gian tăng cấp
+    // Cấp của enemy, được cập nhật từ Director
     public int enemyLevel = 1;
-    public float levelInterval = 120f; // 2 phút (120 giây)
-    private float levelTimer = 0f;
-    public int healthIncreasePerLevel = 50; // Mỗi cấp tăng thêm 50 máu
 
     void Start()
     {
@@ -49,41 +46,15 @@ public class UIHealthBarMelee : MonoBehaviour
         {
             healthSlider.value = robotHealth.currentHealth;
         }
-
-        // Cập nhật bộ đếm thời gian để tăng cấp
-        levelTimer += Time.deltaTime;
-        if (levelTimer >= levelInterval)
-        {
-            LevelUp();
-            levelTimer = 0f;
-        }
     }
 
-    // Hàm tăng cấp robot melee
-    void LevelUp()
+    // Phương thức cập nhật cấp của enemy, được gọi từ Director sau khi spawn hoặc khi thay đổi scaling
+    public void SetEnemyLevel(int level)
     {
-        enemyLevel++;
-
-        // Tăng máu tối đa của robot melee theo cấp (cộng thêm 50)
-        if (robotHealth != null)
-        {
-            robotHealth.maxHealth += healthIncreasePerLevel;
-            // Hồi đầy máu sau khi tăng cấp:
-            robotHealth.currentHealth = robotHealth.maxHealth;
-
-            // Cập nhật lại giá trị max của slider
-            if (healthSlider != null)
-            {
-                healthSlider.maxValue = robotHealth.maxHealth;
-            }
-        }
-
-        // Cập nhật hiển thị cấp (định dạng 2 chữ số)
+        enemyLevel = level;
         if (levelText != null)
         {
             levelText.text = enemyLevel.ToString("00");
         }
-
-        Debug.Log("Robot melee đã tăng cấp lên: " + enemyLevel + " với máu tối đa mới: " + robotHealth.maxHealth);
     }
 }
