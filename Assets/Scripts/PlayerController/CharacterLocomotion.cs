@@ -23,6 +23,7 @@ public class CharacterLocomotion : MonoBehaviour
     bool isDodging = false;
     int isSprintingParam = Animator.StringToHash("isSprinting");
 
+    public AudioSource footStepsSound, jumpSound, sprintsound, fallLandSound;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -37,6 +38,26 @@ public class CharacterLocomotion : MonoBehaviour
 
         animator.SetFloat("InputX", input.x);
         animator.SetFloat("InputY", input.y);
+
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                footStepsSound.enabled = false;
+                sprintsound.enabled = true;
+            }
+            else
+            {
+                footStepsSound.enabled = true;
+                sprintsound.enabled= false;
+            }
+        }
+
+        else
+        {
+            footStepsSound.enabled = false;
+            sprintsound.enabled = false;
+        }
 
         UpdateIsSprinting();
 

@@ -24,7 +24,7 @@ public class Ragdoll : MonoBehaviour
         animator.enabled = true;
     }
     
-    public void ActivateRagroll()
+    public void ActivateRagdoll()
     {
         foreach (var rigidBody in rigidBodies)
         {

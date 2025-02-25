@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -8,9 +9,10 @@ public class PlayerHealth : MonoBehaviour
     private float currentHealth;
     Ragdoll ragdoll;
     public Slider healthSlider;
-
+    // khai bao cay sung
+    public GameObject guns;
     killCam KillCamera;
-    
+
     // UI Image dùng để hiển thị hiệu ứng damage (phải đảm bảo kéo thả đúng Image từ UI vào Inspector)
     public Image damageImage;
     // Tốc độ fade out của hiệu ứng
@@ -84,7 +86,8 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         Debug.Log("Player đã chết!");
-        ragdoll.ActivateRagroll();
+        ragdoll.ActivateRagdoll();
+        Destroy(guns);
         KillCamera.EnableKillCam();
         // Thêm các xử lý khi Player chết (chuyển cảnh, respawn, v.v.)
     }
