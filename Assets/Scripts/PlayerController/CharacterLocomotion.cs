@@ -108,35 +108,52 @@ public class CharacterLocomotion : MonoBehaviour
         isJumping = !cc.isGrounded;
         rootMotion = Vector3.zero;
         animator.SetBool("isJumping", isJumping);
+        if (!isJumping && cc.isGrounded)
+    {
+    fallLandSound.Play(); // Chơi âm thanh khi tiếp đất
     }
 
-    private void UpdateOnGround()
-    {
-        Vector3 stepForwardAmount = rootMotion * groundSpeed;
-        Vector3 stepDownAmount = Vector3.down * stepDown;
-        
-        cc.Move(stepForwardAmount + stepDownAmount);
-        rootMotion = Vector3.zero;
+    }
 
-        if (!cc.isGrounded)
+   private void UpdateOnGround()
+{
+    Vector3 stepForwardAmount = rootMotion * groundSpeed;
+    Vector3 stepDownAmount = Vector3.down * stepDown;
+    
+    cc.Move(stepForwardAmount + stepDownAmount);
+    rootMotion = Vector3.zero;
+
+    if (!cc.isGrounded)
+    {
+        SetInAir(0);
+    }
+    else
+    {
+        // Nếu nhân vật vừa tiếp đất và đang giữ Shift, bật lại âm thanh chạy
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            SetInAir(0);
+            sprintsound.enabled = true;
         }
     }
+}
+
 
     Vector3 CalculateAirControl()
     {
         return ((transform.forward * input.y) + (transform.right * input.x)) * (airControl / 100);
     }
 
-    void Jump()
+   void Jump()
+{
+    if (!isJumping)
     {
-        if (!isJumping)
-        {
-            float jumpVelocity = Mathf.Sqrt(2 * gravity * jumHeight);
-            SetInAir(jumpVelocity);
-        }
+        float jumpVelocity = Mathf.Sqrt(2 * gravity * jumHeight);
+        SetInAir(jumpVelocity);
+        sprintsound.enabled = false;
     }
+}
+
+
 
     private void SetInAir(float jumpVelocity)
     {
