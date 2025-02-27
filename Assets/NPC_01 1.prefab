@@ -923,6 +923,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.11844289
       objectReference: {fileID: 0}
+    - target: {fileID: -314779528315869036, guid: d0f0da05664b6844fa725f733e465f43,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 261011032403192609, guid: d0f0da05664b6844fa725f733e465f43,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1908,8 +1913,6 @@ MonoBehaviour:
   healthSlider: {fileID: 5234583490955594576}
   levelText: {fileID: 7469612597787350357}
   enemyLevel: 1
-  levelInterval: 60
-  healthIncreasePerLevel: 50
 --- !u!114 &8740946660480632056
 MonoBehaviour:
   m_ObjectHideFlags: 0

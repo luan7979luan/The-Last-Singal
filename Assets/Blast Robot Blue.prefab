@@ -308,7 +308,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &2374712483296827047
 Transform:
@@ -2300,8 +2300,6 @@ MonoBehaviour:
   healthSlider: {fileID: 4384465472079088759}
   levelText: {fileID: 1429150687590142578}
   enemyLevel: 1
-  levelInterval: 60
-  healthIncreasePerLevel: 50
 --- !u!1 &6477809524201063740
 GameObject:
   m_ObjectHideFlags: 0
