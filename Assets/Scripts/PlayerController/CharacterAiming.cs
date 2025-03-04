@@ -22,7 +22,7 @@ public class CharacterAiming : MonoBehaviour
     
     void FixedUpdate()
     {
-        float yawCamera = mainCamera.transform.eulerAngles.y;
+        float yawCamera = mainCamera.transform.rotation.eulerAngles.y;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yawCamera, 0), turnSpeed * Time.fixedDeltaTime);
     }
     

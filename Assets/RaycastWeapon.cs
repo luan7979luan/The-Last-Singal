@@ -156,6 +156,12 @@ public class RaycastWeapon : MonoBehaviour
             {
                 hitBoxNPC2.OnRayCastHit(this, ray.direction);
             }
+            var hitBoxBoss = hitInfo.collider.GetComponent<HitBoxBoss>();
+            if (hitBoxBoss)
+            {
+                hitBoxBoss.OnRayCastHit(this, ray.direction);
+            }
+
         }
         bullet.tracer.transform.position = end;
     }
