@@ -54,11 +54,16 @@ public void ResumeGame()
 
     // Phương thức lưu dữ liệu (nếu cần) và chuyển về scene menu chính
     public void QuitAndSave()
+{
+    // Tìm đối tượng chứa PlaytimeCounter và gọi lưu highscore
+    PlaytimeCounter playtimeCounter = FindObjectOfType<PlaytimeCounter>();
+    if (playtimeCounter != null)
     {
-        // Thực hiện lưu dữ liệu tại đây (ví dụ: sử dụng PlayerPrefs)
-        // Ví dụ: PlayerPrefs.SetInt("PlayerScore", currentScore);
-        // Sau đó, chuyển về scene menu chính
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(mainMenuSceneName);
+        playtimeCounter.SaveHighscore();
     }
+    
+    Time.timeScale = 1f; // Đảm bảo thời gian game đang chạy khi chuyển scene
+    SceneManager.LoadScene(mainMenuSceneName);
+}
+
 }

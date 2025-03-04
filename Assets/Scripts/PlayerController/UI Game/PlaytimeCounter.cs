@@ -1,37 +1,49 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro; // Nếu sử dụng TextMeshPro
+using TMPro;
 
 public class PlaytimeCounter : MonoBehaviour
 {
-    public Text uiText; // Sử dụng UI Text
-    public TextMeshProUGUI tmpText; // Sử dụng TextMeshPro (nếu có)
+    // Nếu bạn muốn hiển thị thời gian chơi trong lúc game (không bắt buộc)
+    public TextMeshProUGUI playtimeText;
 
     private float playtime = 0f; // Tổng số giây đã chơi
+    private float highscorePlaytime = 0f;
+    private const string HighscoreKey = "HighscorePlaytime";
+
+    void Start()
+    {
+        // Lấy highscore đã lưu (nếu có)
+        highscorePlaytime = PlayerPrefs.GetFloat(HighscoreKey, 0);
+    }
 
     void Update()
     {
-        // Tăng thời gian chơi
         playtime += Time.deltaTime;
-
-        // Cập nhật UI
-        UpdatePlaytimeDisplay(playtime);
+        if (playtimeText != null)
+            playtimeText.text = FormatTime(playtime);
     }
 
-    void UpdatePlaytimeDisplay(float time)
+    string FormatTime(float time)
     {
-        // Chuyển đổi thời gian thành giờ, phút và giây
-        int hours = Mathf.FloorToInt(time / 3600); // 1 giờ = 3600 giây
+        int hours = Mathf.FloorToInt(time / 3600);
         int minutes = Mathf.FloorToInt((time % 3600) / 60);
         int seconds = Mathf.FloorToInt(time % 60);
+        return string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
+    }
 
-        // Định dạng thời gian kiểu giờ:phút:giây
-        string formattedTime = string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
+    // Gọi phương thức này khi game kết thúc hoặc khi chuyển sang scene khác (nếu không dùng OnApplicationQuit)
+    public void SaveHighscore()
+    {
+        if (playtime > highscorePlaytime)
+        {
+            highscorePlaytime = playtime;
+            PlayerPrefs.SetFloat(HighscoreKey, highscorePlaytime);
+            PlayerPrefs.Save();
+        }
+    }
 
-        // Cập nhật UI
-        if (uiText != null)
-            uiText.text = formattedTime;
-        if (tmpText != null)
-            tmpText.text = formattedTime;
+    void OnApplicationQuit()
+    {
+        SaveHighscore();
     }
 }
