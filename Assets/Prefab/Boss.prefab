@@ -114,8 +114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fb4c8ca9d2d7194c94f1c5a371a3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthSlider: {fileID: 0}
-  maxHealth: 100
 --- !u!1 &1066757837048296329
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,7 +844,8 @@ Transform:
   m_LocalPosition: {x: -0, y: -0.04, z: 0.000000023894263}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8035639926862945702}
   m_Father: {fileID: 5578280733270000598}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &3014545370548147604
@@ -1120,6 +1119,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5578280733270000598}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8966298332812799360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8035639926862945702}
+  m_Layer: 0
+  m_Name: Spawn point npc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8035639926862945702
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8966298332812799360}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.37, z: 0.416}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4346931916118935143}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8981557616476671937
 GameObject:
   m_ObjectHideFlags: 0
@@ -1130,6 +1160,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5578280733270000598}
   - component: {fileID: 4625526530221621727}
+  - component: {fileID: 4541874696348946794}
+  - component: {fileID: 5887040907036422803}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -1181,6 +1213,52 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4541874696348946794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8981557616476671937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed87e2d9eb37d5546999fdc04e7271b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 4625526530221621727}
+  agent: {fileID: 5887040907036422803}
+  monsterPrefabs:
+  - {fileID: 6445800173694162270, guid: 881168efad27c4245833d863f2f6ce73, type: 3}
+  - {fileID: 3884767629017073657, guid: 7dde0dc882e36884e8400cb07cccfc8b, type: 3}
+  - {fileID: 1836861853697822186, guid: 6792b07ca714a9c42a849e0609a6727b, type: 3}
+  spawnPoint: {fileID: 8035639926862945702}
+  castCooldown: 5
+  summonCount: 3
+  spawnRadius: 2
+  player: {fileID: 0}
+  rotationSpeed: 5
+--- !u!195 &5887040907036422803
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8981557616476671937}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1001 &8362484555166470070
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1364,18 +1442,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8362484555166470070}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4891097375820196545 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4029921512646042999, guid: f479e6d1aeef6f4479e71f414adc7627,
-    type: 3}
-  m_PrefabInstance: {fileID: 8362484555166470070}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7701100572996322209 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2220922566995053591, guid: f479e6d1aeef6f4479e71f414adc7627,
@@ -1394,5 +1460,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fb4c8ca9d2d7194c94f1c5a371a3e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthSlider: {fileID: 4891097375820196545}
-  maxHealth: 100
