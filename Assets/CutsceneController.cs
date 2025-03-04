@@ -2,26 +2,38 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;  // Import để sử dụng SceneManager
+using UnityEngine.SceneManagement;
 
 public class CutsceneController : MonoBehaviour
 {
-    public Image cutsceneImage;         // UI Image chứa hình ảnh cutscene
-    public TMP_Text cutsceneText;       // TextMeshPro để hiển thị text
-    public Sprite[] images;             // Mảng chứa các hình ảnh (Sprite)
-    public string[] texts;              // Mảng chứa các đoạn văn bản tương ứng
-    public float displayTime = 3f;      // Thời gian hiển thị mỗi cảnh
-    public float fadeDuration = 1f;     // Thời gian thực hiện hiệu ứng fade
+    [Header("Cutscene Elements")]
+    public Image cutsceneImage;       // UI Image chứa hình ảnh cutscene
+    public TMP_Text cutsceneText;     // TextMeshPro để hiển thị text
+    public Sprite[] images;           // Mảng chứa hình ảnh cutscene
+    public string[] texts;            // Mảng chứa văn bản cutscene
+    public float displayTime = 3f;    // Thời gian hiển thị mỗi cảnh
+    public float fadeDuration = 1f;   // Thời gian fade in/out
 
-    private CanvasGroup canvasGroup;    // CanvasGroup để điều khiển alpha
+    [Header("Credits Elements")]
+    public GameObject creditsPanel;   // Panel chứa credits
+    public TMP_Text creditsText;      // Text hiển thị credits
+    public float creditsScrollSpeed = 50f; // Tốc độ cuộn credits
+    public float creditsDuration = 10f;    // Thời gian hiển thị credits
+
+    private CanvasGroup canvasGroup;
 
     void Awake()
     {
-        // Lấy hoặc thêm CanvasGroup cho GameObject chứa script
         canvasGroup = GetComponent<CanvasGroup>();
         if (canvasGroup == null)
         {
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        }
+
+        // Ẩn credits panel ban đầu
+        if (creditsPanel != null)
+        {
+            creditsPanel.SetActive(false);
         }
     }
 
@@ -32,7 +44,6 @@ public class CutsceneController : MonoBehaviour
 
     void Update()
     {
-        // Nếu người chơi nhấn phím E, thực hiện skip cutscene và chuyển sang menu scene
         if (Input.GetKeyDown(KeyCode.E))
         {
             SkipCutscene();
@@ -41,35 +52,49 @@ public class CutsceneController : MonoBehaviour
 
     void SkipCutscene()
     {
-        // Dừng toàn bộ coroutine hiện tại
-        StopAllCoroutines();
-        // Chuyển sang scene menu, thay "MenuScene" bằng tên scene menu của bạn
-        SceneManager.LoadScene("MainMenuScene");
+        StopAllCoroutines(); // Dừng toàn bộ coroutine
+        SceneManager.LoadScene("MainMenuScene"); // Chuyển sang màn hình chính
     }
 
     IEnumerator PlayCutscene()
     {
         for (int i = 0; i < images.Length; i++)
         {
-            // Cập nhật hình ảnh và văn bản cho cảnh hiện tại
             cutsceneImage.sprite = images[i];
             cutsceneText.text = texts[i];
 
-            // Thực hiện fade in
             yield return StartCoroutine(FadeIn());
-
-            // Hiển thị cảnh trong khoảng thời gian displayTime
             yield return new WaitForSeconds(displayTime);
-
-            // Thực hiện fade out
             yield return StartCoroutine(FadeOut());
         }
 
-        // Sau khi hoàn thành cutscene, chuyển sang menu scene
+        // Khi kết thúc cutscene, bắt đầu credits
+        StartCoroutine(ShowCredits());
+    }
+
+    IEnumerator ShowCredits()
+    {
+        if (creditsPanel != null && creditsText != null)
+        {
+            creditsPanel.SetActive(true);
+            RectTransform creditsRect = creditsText.GetComponent<RectTransform>();
+
+            float startPos = -creditsRect.rect.height;
+            float endPos = 500; // Điểm dừng của credits (có thể tùy chỉnh)
+            float elapsedTime = 0f;
+
+            while (elapsedTime < creditsDuration)
+            {
+                creditsRect.anchoredPosition = new Vector2(creditsRect.anchoredPosition.x, Mathf.Lerp(startPos, endPos, elapsedTime / creditsDuration));
+                elapsedTime += Time.deltaTime * creditsScrollSpeed;
+                yield return null;
+            }
+        }
+
+        // Khi credits kết thúc, chuyển về menu
         SceneManager.LoadScene("MainMenuScene");
     }
 
-    // Coroutine fade in: tăng alpha từ 0 lên 1
     IEnumerator FadeIn()
     {
         float t = 0;
@@ -82,7 +107,6 @@ public class CutsceneController : MonoBehaviour
         canvasGroup.alpha = 1f;
     }
 
-    // Coroutine fade out: giảm alpha từ 1 xuống 0
     IEnumerator FadeOut()
     {
         float t = 0;

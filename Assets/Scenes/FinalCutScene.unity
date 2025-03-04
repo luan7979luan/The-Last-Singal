@@ -349,7 +349,7 @@ GameObject:
   - component: {fileID: 1207507080}
   - component: {fileID: 1207507079}
   - component: {fileID: 1207507078}
-  - component: {fileID: 1207507077}
+  - component: {fileID: 1207507082}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -357,56 +357,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1207507077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1207507076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce7f2d0d7db97854abf9fc76d848bcff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cutsceneImage: {fileID: 192214488}
-  cutsceneText: {fileID: 1152257388}
-  images:
-  - {fileID: 21300000, guid: c877879024550a54caa4310faaa70d39, type: 3}
-  - {fileID: 21300000, guid: 94719a3fae5ae6e498c390d5e3cd1a7c, type: 3}
-  - {fileID: 21300000, guid: 7ccc09f171783cf44aac3dc37932968b, type: 3}
-  - {fileID: 21300000, guid: a432b1ee803d2ea4785cf5bcadd92dfb, type: 3}
-  texts:
-  - "Sau tr\u1EADn chi\u1EBFn cam go v\u1EDBi Boss \u2013 sinh v\u1EADt b\u1ECD kh\u1ED5ng
-    l\u1ED3, phi h\xE0nh gia \u0111\u1EE9ng gi\u1EEFa \u0111\u1ED1ng t\xE0n t\xEDch
-    c\u1EE7a k\u1EBB th\xF9. Nh\u1EEFng m\u1EA3nh v\u1EE1 v\xE0 d\u1EA5u hi\u1EC7u
-    c\u1EE7a tr\u1EADn chi\u1EBFn \xE1c li\u1EC7t bao quanh, nh\u01B0ng trong kho\u1EA3nh
-    kh\u1EAFc l\u1EB7ng im \u1EA5y, anh c\u1EA3m nh\u1EADn \u0111\u01B0\u1EE3c s\u1EF1
-    gi\u1EA3i tho\xE1t v\xE0 chi\u1EBFn th\u1EAFng sau bao l\u1EA7n \u0111\u1ED1i
-    \u0111\u1EA7u v\u1EDBi hi\u1EC3m nguy."
-  - "V\u1EDBi t\xE2m tr\u1EA1ng tr\u0129u n\u1EB7ng nh\u01B0ng kh\xF4ng k\xE9m ph\u1EA7n
-    hy v\u1ECDng, anh b\u1EAFt \u0111\u1EA7u h\xE0nh tr\xECnh tr\u1EDF v\u1EC1 con
-    t\xE0u v\u0169 tr\u1EE5 \u0111\xE3 \u0111\u01B0\u1EE3c s\u1EEDa ch\u1EEFa. D\u01B0\u1EDBi
-    \xE1nh s\xE1ng lung linh c\u1EE7a d\u1EA3i ng\xE2n h\xE0, chi\u1EBFc t\xE0u tr\u1EDF
-    th\xE0nh bi\u1EC3u t\u01B0\u1EE3ng c\u1EE7a kh\u1EDFi \u0111\u1EA7u m\u1EDBi,
-    d\u1EABn l\u1ED1i anh v\u01B0\u1EE3t qua nh\u1EEFng t\xE0n t\xEDch chi\u1EBFn
-    tr\u01B0\u1EDDng \u0111\u1EC3 h\u01B0\u1EDBng v\u1EC1 n\u01A1i an to\xE0n."
-  - "B\u01B0\u1EDBc v\xE0o khoang t\xE0u \u1EA5m \xE1p, anh \u0111\u01B0\u1EE3c ch\xE0o
-    \u0111\xF3n b\u1EDFi v\xF2ng tay y\xEAu th\u01B0\u01A1ng c\u1EE7a gia \u0111\xECnh.
-    Nh\u1EEFng n\u1EE5 c\u01B0\u1EDDi r\u1EA1ng r\u1EE1 v\xE0 c\xE1i \xF4m \u1EA5m
-    \xE1p l\xE0m tan bi\u1EBFn m\u1EC7t m\u1ECFi, kh\u1EAFc h\u1ECDa kho\u1EA3nh
-    kh\u1EAFc \u0111o\xE0n t\u1EE5 \u0111\u1EA7y c\u1EA3m x\xFAc v\xE0 h\u1EA1nh
-    ph\xFAc sau m\u1ED9t h\xE0nh tr\xECnh gian tru\xE2n."
-  - "Sau khi \u0111o\xE0n t\u1EE5, c\u1EA3 gia \u0111\xECnh c\xF9ng nhau b\u01B0\u1EDBc
-    ra kh\u1ECFi t\xE0u v\xE0 ng\u01B0\u1EDBc nh\xECn b\u1EA7u tr\u1EDDi \u0111\xEAm
-    tr\xE0n ng\u1EADp sao. \xC1nh s\xE1ng c\u1EE7a nh\u1EEFng v\xEC sao nh\u01B0
-    nh\u1EEFng l\u1EDDi h\u1EE9a v\u1EC1 t\u01B0\u01A1ng lai t\u01B0\u01A1i s\xE1ng,
-    truy\u1EC1n c\u1EA3m h\u1EE9ng v\xE0 hy v\u1ECDng cho m\u1ED9t kh\u1EDFi \u0111\u1EA7u
-    m\u1EDBi \u0111\u1EA7y \xFD ngh\u0129a, n\u01A1i m\u1ECDi th\u1EED th\xE1ch \u0111\u1EC1u
-    \u0111\u01B0\u1EE3c v\u01B0\u1EE3t qua nh\u1EDD s\u1EE9c m\u1EA1nh c\u1EE7a t\xECnh
-    y\xEAu v\xE0 ni\u1EC1m tin."
-  displayTime: 10
-  fadeDuration: 2
 --- !u!114 &1207507078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,6 +440,62 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1207507082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207507076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d293c3d715ea854ca4c5d3fb9a665f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cutsceneImage: {fileID: 192214488}
+  cutsceneText: {fileID: 1152257388}
+  images:
+  - {fileID: 21300000, guid: c877879024550a54caa4310faaa70d39, type: 3}
+  - {fileID: 21300000, guid: 94719a3fae5ae6e498c390d5e3cd1a7c, type: 3}
+  - {fileID: 21300000, guid: 7ccc09f171783cf44aac3dc37932968b, type: 3}
+  - {fileID: 21300000, guid: a432b1ee803d2ea4785cf5bcadd92dfb, type: 3}
+  texts:
+  - "Sau tr\u1EADn chi\u1EBFn cam go v\u1EDBi Boss \u2013 sinh v\u1EADt b\u1ECD kh\u1ED5ng
+    l\u1ED3, phi h\xE0nh gia \u0111\u1EE9ng gi\u1EEFa \u0111\u1ED1ng t\xE0n t\xEDch
+    c\u1EE7a k\u1EBB th\xF9. Nh\u1EEFng m\u1EA3nh v\u1EE1 v\xE0 d\u1EA5u hi\u1EC7u
+    c\u1EE7a tr\u1EADn chi\u1EBFn \xE1c li\u1EC7t bao quanh, nh\u01B0ng trong kho\u1EA3nh
+    kh\u1EAFc l\u1EB7ng im \u1EA5y, anh c\u1EA3m nh\u1EADn \u0111\u01B0\u1EE3c s\u1EF1
+    gi\u1EA3i tho\xE1t v\xE0 chi\u1EBFn th\u1EAFng sau bao l\u1EA7n \u0111\u1ED1i
+    \u0111\u1EA7u v\u1EDBi hi\u1EC3m nguy."
+  - "V\u1EDBi t\xE2m tr\u1EA1ng tr\u0129u n\u1EB7ng nh\u01B0ng kh\xF4ng k\xE9m ph\u1EA7n
+    hy v\u1ECDng, anh b\u1EAFt \u0111\u1EA7u h\xE0nh tr\xECnh tr\u1EDF v\u1EC1 con
+    t\xE0u v\u0169 tr\u1EE5 \u0111\xE3 \u0111\u01B0\u1EE3c s\u1EEDa ch\u1EEFa. D\u01B0\u1EDBi
+    \xE1nh s\xE1ng lung linh c\u1EE7a d\u1EA3i ng\xE2n h\xE0, chi\u1EBFc t\xE0u tr\u1EDF
+    th\xE0nh bi\u1EC3u t\u01B0\u1EE3ng c\u1EE7a kh\u1EDFi \u0111\u1EA7u m\u1EDBi,
+    d\u1EABn l\u1ED1i anh v\u01B0\u1EE3t qua nh\u1EEFng t\xE0n t\xEDch chi\u1EBFn
+    tr\u01B0\u1EDDng \u0111\u1EC3 h\u01B0\u1EDBng v\u1EC1 n\u01A1i an to\xE0n."
+  - "B\u01B0\u1EDBc v\xE0o khoang t\xE0u \u1EA5m \xE1p, anh \u0111\u01B0\u1EE3c ch\xE0o
+    \u0111\xF3n b\u1EDFi v\xF2ng tay y\xEAu th\u01B0\u01A1ng c\u1EE7a gia \u0111\xECnh.
+    Nh\u1EEFng n\u1EE5 c\u01B0\u1EDDi r\u1EA1ng r\u1EE1 v\xE0 c\xE1i \xF4m \u1EA5m
+    \xE1p l\xE0m tan bi\u1EBFn m\u1EC7t m\u1ECFi, kh\u1EAFc h\u1ECDa kho\u1EA3nh
+    kh\u1EAFc \u0111o\xE0n t\u1EE5 \u0111\u1EA7y c\u1EA3m x\xFAc v\xE0 h\u1EA1nh
+    ph\xFAc sau m\u1ED9t h\xE0nh tr\xECnh gian tru\xE2n."
+  - "Sau khi \u0111o\xE0n t\u1EE5, c\u1EA3 gia \u0111\xECnh c\xF9ng nhau b\u01B0\u1EDBc
+    ra kh\u1ECFi t\xE0u v\xE0 ng\u01B0\u1EDBc nh\xECn b\u1EA7u tr\u1EDDi \u0111\xEAm
+    tr\xE0n ng\u1EADp sao. \xC1nh s\xE1ng c\u1EE7a nh\u1EEFng v\xEC sao nh\u01B0
+    nh\u1EEFng l\u1EDDi h\u1EE9a v\u1EC1 t\u01B0\u01A1ng lai t\u01B0\u01A1i s\xE1ng,
+    truy\u1EC1n c\u1EA3m h\u1EE9ng v\xE0 hy v\u1ECDng cho m\u1ED9t kh\u1EDFi \u0111\u1EA7u
+    m\u1EDBi \u0111\u1EA7y \xFD ngh\u0129a, n\u01A1i m\u1ECDi th\u1EED th\xE1ch \u0111\u1EC1u
+    \u0111\u01B0\u1EE3c v\u01B0\u1EE3t qua nh\u1EDD s\u1EE9c m\u1EA1nh c\u1EE7a t\xECnh
+    y\xEAu v\xE0 ni\u1EC1m tin."
+  displayTime: 10
+  fadeDuration: 2
+  creditsPanel: {fileID: 0}
+  creditsText: {fileID: 0}
+  creditsScrollSpeed: 50
+  creditsDuration: 10
+  creditContent: "Game Developed by Ngh\u0129a and Lu\xE2n\nMusic by Composer AI\nSpecial
+    Thanks to Everyone!\n\nThank you for playing!"
 --- !u!1 &1311635069
 GameObject:
   m_ObjectHideFlags: 0
