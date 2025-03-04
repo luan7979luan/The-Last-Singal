@@ -33,6 +33,9 @@ public class Health : MonoBehaviour
     // Tham chiếu đến NavMeshAgent nếu enemy sử dụng di chuyển theo NavMesh
     private NavMeshAgent navAgent;
 
+    // Prefab hiển thị damage text (Prefab chứa FloatingDamageText)
+    public GameObject floatingDamageTextPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,7 +64,22 @@ public class Health : MonoBehaviour
         if (isDead)
             return;
 
+        // Hiển thị damage text
+        if (floatingDamageTextPrefab != null)
+        {
+            // Tạo vị trí hiển thị (ví dụ: vị trí enemy cộng thêm offset)
+            Vector3 spawnPos = transform.position + new Vector3(0, 2f, 0);
+            GameObject dmgTextInstance = Instantiate(floatingDamageTextPrefab, spawnPos, Quaternion.identity);
+            FloatingDamageText floatingDamageText = dmgTextInstance.GetComponent<FloatingDamageText>();
+            if (floatingDamageText != null)
+            {
+                // Làm tròn damage và chuyển thành int (có thể điều chỉnh theo nhu cầu)
+                floatingDamageText.SetDamageValue(Mathf.RoundToInt(amount));
+            }
+        }
+
         currentHealth -= amount;
+
         // Khi sức khỏe dưới hoặc bằng 0, thực hiện hành động chết chỉ một lần
         if (currentHealth <= 0.0f && !isDead)
         {

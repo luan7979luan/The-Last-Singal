@@ -6,12 +6,17 @@ using System.Collections;
 public class UpgradeUIController : MonoBehaviour
 {
     public GameObject upgradeUIPanel;
+    
     public RaycastWeapon raycastWeapon;
     public PlayerHealth playerHealth;
     public PlayerExperience playerExperience;
+    
     public Button increaseDamageButton;
     public Button increaseHPButton;
+    public Button increaseCritChanceButton; // Nút nâng cấp crit chance
+    
     public GameObject[] uiToHide;
+    
     public TextMeshProUGUI errorText;
     public float errorDisplayTime = 2f;
 
@@ -24,6 +29,8 @@ public class UpgradeUIController : MonoBehaviour
             increaseDamageButton.onClick.AddListener(OnIncreaseDamage);
         if (increaseHPButton != null)
             increaseHPButton.onClick.AddListener(OnIncreaseHP);
+        if (increaseCritChanceButton != null)
+            increaseCritChanceButton.onClick.AddListener(OnIncreaseCritChance);
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -57,7 +64,6 @@ public class UpgradeUIController : MonoBehaviour
                 }
             }
 
-            // Kiểm soát con trỏ
             if (isActive)
             {
                 Cursor.lockState = CursorLockMode.None;
@@ -69,7 +75,6 @@ public class UpgradeUIController : MonoBehaviour
                 Cursor.visible = false;
             }
             
-            // Điều chỉnh việc bắn của súng
             if (raycastWeapon != null)
             {
                 raycastWeapon.canFire = !isActive;
@@ -104,6 +109,24 @@ public class UpgradeUIController : MonoBehaviour
             {
                 playerHealth.UpgradeHealth(50f);
                 Debug.Log("Max Health increased to: " + playerHealth.maxHealth);
+            }
+            playerExperience.UpdateUpgradePointsUI();
+        }
+        else
+        {
+            StartCoroutine(ShowErrorMessage("Not enough points to upgrade"));
+        }
+    }
+
+    void OnIncreaseCritChance()
+    {
+        if (playerExperience != null && playerExperience.availableUpgradePoints > 0)
+        {
+            playerExperience.availableUpgradePoints--;
+            if (raycastWeapon != null)
+            {
+                // Tăng crit chance, ví dụ mỗi lần tăng 5%
+                raycastWeapon.UpgradeCritChance(5f);
             }
             playerExperience.UpdateUpgradePointsUI();
         }

@@ -15,6 +15,7 @@ public class RaycastWeapon : MonoBehaviour
     }
     
     public bool isFiring = false;
+    public float critChance = 5f;
     public bool canFire = true; // Biến cờ điều khiển việc bắn đạn
     public int fireRate = 10;
     public float bulletSpeed = 1000.0f;
@@ -69,6 +70,12 @@ public class RaycastWeapon : MonoBehaviour
         accumulatedTime = 0.0f;
         FireBullet();
     }
+
+    public void UpgradeCritChance(float amount)
+{
+    critChance += amount;
+    Debug.Log("Crit Chance upgraded to: " + critChance + "%");
+}
     
     // Hàm update bắn đạn, có kiểm tra nếu con trỏ đang ở trên UI hoặc game bị pause thì không bắn
     public void UpdateFiring(float deltaTime)
