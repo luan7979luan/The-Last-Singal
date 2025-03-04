@@ -2179,6 +2179,7 @@ GameObject:
   - component: {fileID: 3509927372408497537}
   - component: {fileID: 1942262081747800071}
   - component: {fileID: 7287954472823478380}
+  - component: {fileID: 4675799007013228843}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -2288,7 +2289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc91935e33fd84d8c1e6fb29bca172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 50
+  maxHealth: 10000
   currentHealth: 0
   animator: {fileID: 4625526530221621727}
   blinkIntensity: 0
@@ -2320,6 +2321,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBodies: []
+--- !u!114 &4675799007013228843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8981557616476671937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab15454c9bbb5bb44a3ff223d2c17dfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossHealth: {fileID: 3509927372408497537}
+  healthSlider: {fileID: 4891097375820196545}
 --- !u!1001 &8362484555166470070
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2503,6 +2518,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8362484555166470070}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4891097375820196545 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4029921512646042999, guid: f479e6d1aeef6f4479e71f414adc7627,
+    type: 3}
+  m_PrefabInstance: {fileID: 8362484555166470070}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7701100572996322209 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2220922566995053591, guid: f479e6d1aeef6f4479e71f414adc7627,
