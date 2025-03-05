@@ -9,7 +9,7 @@ public class PlayerHealth : MonoBehaviour
     private float currentHealth;
     Ragdoll ragdoll;
     public Slider healthSlider;
-    // khai bao cay sung
+  
     public GameObject guns;
     killCam KillCamera;
 
@@ -19,6 +19,9 @@ public class PlayerHealth : MonoBehaviour
     public float flashSpeed = 5f;
     // Màu hiển thị khi nhận damage (màu đỏ với alpha cao)
     public Color flashColor = new Color(1f, 0f, 0f, 0.5f);
+
+    // Thêm biến cho Game Over Panel
+    public GameObject gameOverPanel;
 
     void Start()
     {
@@ -35,6 +38,11 @@ public class PlayerHealth : MonoBehaviour
         {
             // Bắt đầu với màu trong suốt
             damageImage.color = Color.clear;
+        }
+        // Ẩn Game Over Panel khi bắt đầu game
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(false);
         }
     }
 
@@ -56,8 +64,7 @@ public class PlayerHealth : MonoBehaviour
         {
             healthSlider.value = currentHealth;
         }
-
-        // Khi bị dame, đặt màu cho damageImage để hiển thị hiệu ứng flash
+       
         if (damageImage != null)
         {
             damageImage.color = flashColor;
@@ -69,26 +76,33 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    // Phương thức nâng cấp health: tăng maxHealth và currentHealth theo amount truyền vào
     public void UpgradeHealth(float amount)
     {
         maxHealth += amount;
-        currentHealth += amount;  // Nếu bạn muốn tăng currentHealth theo amount
-        // Nếu muốn currentHealth được khôi phục hoàn toàn, bạn có thể thay bằng: currentHealth = maxHealth;
+        currentHealth += amount;  
         if (healthSlider != null)
         {
             healthSlider.maxValue = maxHealth;
             healthSlider.value = currentHealth;
         }
-        Debug.Log("Health upgraded: maxHealth = " + maxHealth + ", currentHealth = " + currentHealth);
     }
 
     void Die()
+{
+    Debug.Log("Player đã chết!");
+    ragdoll.ActivateRagdoll();
+    Destroy(guns);
+    KillCamera.EnableKillCam();
+
+    // Hiển thị Game Over Panel
+    if (gameOverPanel != null)
     {
-        Debug.Log("Player đã chết!");
-        ragdoll.ActivateRagdoll();
-        Destroy(guns);
-        KillCamera.EnableKillCam();
-        // Thêm các xử lý khi Player chết (chuyển cảnh, respawn, v.v.)
+        gameOverPanel.SetActive(true);
     }
+
+    // Hiển thị con trỏ chuột
+    Cursor.lockState = CursorLockMode.None;
+    Cursor.visible = true;
+}
+
 }

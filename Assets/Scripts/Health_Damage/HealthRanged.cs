@@ -25,7 +25,7 @@ public class Health : MonoBehaviour
     public float blinkDuration;
     float blinkTimer;
 
-    // Số kinh nghiệm thưởng cho player khi robot bị tiêu diệt
+    // Số kinh nghiệm và điểm thưởng cho player khi robot bị tiêu diệt
     public int experienceReward = 50;
 
     // Biến kiểm tra trạng thái chết để đảm bảo hành động Die chỉ được gọi một lần
@@ -67,13 +67,11 @@ public class Health : MonoBehaviour
         // Hiển thị damage text
         if (floatingDamageTextPrefab != null)
         {
-            // Tạo vị trí hiển thị (ví dụ: vị trí enemy cộng thêm offset)
             Vector3 spawnPos = transform.position + new Vector3(0, 2f, 0);
             GameObject dmgTextInstance = Instantiate(floatingDamageTextPrefab, spawnPos, Quaternion.identity);
             FloatingDamageText floatingDamageText = dmgTextInstance.GetComponent<FloatingDamageText>();
             if (floatingDamageText != null)
             {
-                // Làm tròn damage và chuyển thành int (có thể điều chỉnh theo nhu cầu)
                 floatingDamageText.SetDamageValue(Mathf.RoundToInt(amount));
             }
         }
@@ -93,7 +91,7 @@ public class Health : MonoBehaviour
             if (navAgent != null)
                 navAgent.enabled = false;
 
-            // Cộng kinh nghiệm cho player
+            // Cộng kinh nghiệm và điểm cho player
             AddExperienceToPlayer();
 
             Destroy(gameObject, 3f); // Hủy vật thể sau 3 giây
@@ -102,10 +100,10 @@ public class Health : MonoBehaviour
         blinkTimer = blinkDuration;
     }
 
-    // Hàm cộng kinh nghiệm cho player
+    // Hàm cộng kinh nghiệm và điểm cho player
     public void AddExperienceToPlayer()
     {
-        // Giả sử đối tượng player có component PlayerExperience
+        // Cộng kinh nghiệm cho player (giả sử đối tượng player có component PlayerExperience)
         PlayerExperience playerExperience = FindObjectOfType<PlayerExperience>();
         if (playerExperience != null)
         {
@@ -114,6 +112,16 @@ public class Health : MonoBehaviour
         else
         {
             Debug.LogWarning("Không tìm thấy PlayerExperience trong scene!");
+        }
+
+        // Cộng điểm cho player
+        if (ScoreManager.instance != null)
+        {
+            ScoreManager.instance.AddScore(experienceReward);
+        }
+        else
+        {
+            Debug.LogWarning("ScoreManager không tồn tại!");
         }
     }
 

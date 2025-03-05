@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class Interaction : MonoBehaviour
@@ -8,13 +9,14 @@ public class Interaction : MonoBehaviour
     public GameObject enterShipUI; // UI Enter Ship.
     public Image screenOverlay; // Image để làm hiệu ứng tối màn hình.
     public GameObject[] fireObjects; // Các GameObject chứa lửa (Particle Systems).
+    public string endGameSceneName; // Tên scene kết thúc game.
 
     private bool isPlayerInRange = false;
     private bool hasRepaired = false;
 
     void Start()
     {
-        // Ẩn cả hai UI lúc đầu.
+        // Ẩn UI lúc đầu.
         if (repairShipUI != null) repairShipUI.SetActive(false);
         if (enterShipUI != null) enterShipUI.SetActive(false);
 
@@ -39,7 +41,6 @@ public class Interaction : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = false;
-
             if (repairShipUI != null) repairShipUI.SetActive(false);
             if (enterShipUI != null) enterShipUI.SetActive(false);
         }
@@ -55,7 +56,7 @@ public class Interaction : MonoBehaviour
             }
             else
             {
-                EnterShip();
+                StartCoroutine(EnterShip());
             }
         }
     }
@@ -65,10 +66,8 @@ public class Interaction : MonoBehaviour
         hasRepaired = true;
         Debug.Log("Repairing the ship...");
 
-        // Tắt UI Repair Ship.
         if (repairShipUI != null) repairShipUI.SetActive(false);
 
-        // Hiệu ứng tối màn hình.
         if (screenOverlay != null)
         {
             yield return StartCoroutine(FadeToBlack());
@@ -91,7 +90,6 @@ public class Interaction : MonoBehaviour
             }
         }
 
-        // Chờ 1 giây trước khi sáng màn hình trở lại.
         yield return new WaitForSeconds(1f);
 
         if (screenOverlay != null)
@@ -99,13 +97,24 @@ public class Interaction : MonoBehaviour
             yield return StartCoroutine(FadeToClear());
         }
 
-        // Bật UI Enter Ship.
         if (enterShipUI != null) enterShipUI.SetActive(true);
     }
 
-    void EnterShip()
+    IEnumerator EnterShip()
     {
         Debug.Log("Entering the ship...");
+
+        // Tắt UI.
+        if (enterShipUI != null) enterShipUI.SetActive(false);
+
+        // Hiệu ứng fade out.
+        if (screenOverlay != null)
+        {
+            yield return StartCoroutine(FadeToBlack());
+        }
+
+        // Chuyển đến scene end game.
+        LoadEndGameScene();
     }
 
     void ShowUI()
@@ -122,7 +131,7 @@ public class Interaction : MonoBehaviour
 
     IEnumerator FadeToBlack()
     {
-        float duration = 0.5f; // Thời gian fade.
+        float duration = 0.5f;
         float elapsedTime = 0f;
 
         while (elapsedTime < duration)
@@ -136,7 +145,7 @@ public class Interaction : MonoBehaviour
 
     IEnumerator FadeToClear()
     {
-        float duration = 0.5f; // Thời gian fade.
+        float duration = 0.5f;
         float elapsedTime = 0f;
 
         while (elapsedTime < duration)
@@ -145,6 +154,18 @@ public class Interaction : MonoBehaviour
             float alpha = Mathf.Clamp01(1 - (elapsedTime / duration));
             screenOverlay.color = new Color(0, 0, 0, alpha);
             yield return null;
+        }
+    }
+
+    void LoadEndGameScene()
+    {
+        if (!string.IsNullOrEmpty(endGameSceneName))
+        {
+            SceneManager.LoadScene(endGameSceneName);
+        }
+        else
+        {
+            Debug.LogError("End Game Scene Name is not set!");
         }
     }
 }

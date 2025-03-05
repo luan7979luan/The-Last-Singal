@@ -9,63 +9,70 @@ public class RobotController : MonoBehaviour
     private NavMeshAgent agent;
     private Animator animator;
 
-    public GameObject bulletPrefab;   // Thêm prefab viên đạn
+    public GameObject bulletPrefab;   // Prefab viên đạn
     public Transform firePoint;       // Điểm bắn đạn ra
 
     public float timer = 1;
     private float bullettime;
 
-    public float shootingRange = 20f; // Tầm bắn của quái vật
-    public float attackDelay = 0.5f;    // Khoảng thời gian giữa các lần bắn
+    public float shootingRange = 20f;  // Tầm bắn của enemy
+    public float soundRange = 10f;     // Khoảng cách để nghe tiếng súng
+    public float attackDelay = 0.5f;   // Khoảng thời gian giữa các lần bắn
     private float attackTimer;
     
-   
+    // Thêm AudioClip cho âm thanh bắn và AudioSource để phát âm thanh
+    public AudioClip shootingSound;
+    private AudioSource audioSource;
 
-   void Start()
-{
-    agent = GetComponent<NavMeshAgent>();
-    animator = GetComponent<Animator>();
-    agent.speed = Random.Range(3f, 6f);
-    attackTimer = attackDelay;
-
-    // Nếu chưa gán Targetplayer từ Inspector, tìm đối tượng trong scene có tag "Player"
-    if (Targetplayer == null)
+    void Start()
     {
-        Targetplayer = GameObject.FindGameObjectWithTag("Player");
+        agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>(); // Lấy AudioSource từ GameObject
+        agent.speed = Random.Range(3f, 6f);
+        attackTimer = attackDelay;
+
+        // Nếu chưa gán Targetplayer từ Inspector, tìm đối tượng trong scene có tag "Player"
+        if (Targetplayer == null)
+        {
+            Targetplayer = GameObject.FindGameObjectWithTag("Player");
+        }
     }
-}
+    
     void FixedUpdate()
     {
         Move();
     }
 
     private void Move()
-{
-    if (Targetplayer != null)
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, Targetplayer.transform.position);
-
-        // Nếu người chơi ngoài tầm dừng và trong tầm bắn
-        if (distanceToPlayer > agent.stoppingDistance)
+        if (Targetplayer != null)
         {
-            // Di chuyển về phía người chơi
-            agent.SetDestination(Targetplayer.transform.position);
-            animator.SetFloat("Velocity", 0.5f);  // Kích hoạt animation di chuyển
-        }
-        else
-        {
-            // Dừng lại và bắn khi người chơi ở gần
-            agent.SetDestination(transform.position);
-            animator.SetFloat("Velocity", 0f);  // Ngừng animation di chuyển
+            float distanceToPlayer = Vector3.Distance(transform.position, Targetplayer.transform.position);
 
-            // Quay về phía người chơi và bắn
-            RotateTowardsPlayer();
-            shootatplayer();
+            // Nếu người chơi ngoài tầm dừng và trong tầm bắn
+            if (distanceToPlayer > agent.stoppingDistance)
+            {
+                // Di chuyển về phía người chơi
+                agent.SetDestination(Targetplayer.transform.position);
+                animator.SetFloat("Velocity", 0.5f);  // Kích hoạt animation di chuyển
+            }
+            else
+            {
+                // Dừng lại và bắn khi người chơi ở gần
+                agent.SetDestination(transform.position);
+                animator.SetFloat("Velocity", 0f);  // Ngừng animation di chuyển
+
+                // Quay về phía người chơi và bắn
+                RotateTowardsPlayer();
+                shootatplayer(distanceToPlayer); // Truyền khoảng cách vào hàm bắn
+            }
         }
     }
-}
 
-   void shootatplayer()
+   private bool hasPlayedShootSound = false;
+
+void shootatplayer(float distanceToPlayer)
 {
     bullettime += Time.deltaTime;
 
@@ -76,6 +83,15 @@ public class RobotController : MonoBehaviour
         // Kích hoạt animation tấn công
         animator.SetTrigger("Attack");
 
+        // Chỉ phát âm thanh bắn nếu người chơi ở gần và chưa phát âm thanh cho chuỗi bắn này
+        if (distanceToPlayer <= soundRange && !hasPlayedShootSound)
+        {
+            if (audioSource != null && shootingSound != null)
+            {
+                audioSource.PlayOneShot(shootingSound);
+                hasPlayedShootSound = true;
+            }
+        }
         // Xác định hướng bắn
         Vector3 directionToPlayer = (Targetplayer.transform.position - firePoint.position).normalized;
 
@@ -89,38 +105,17 @@ public class RobotController : MonoBehaviour
         {
             bulletRb.isKinematic = false;
             bulletRb.useGravity = false;
-            bulletRb.velocity = directionToPlayer * 30f; // Tăng tốc độ viên đạn
+            bulletRb.velocity = directionToPlayer * 30f;
         }
-
-        Debug.Log("Bullet fired!");
     }
-}
-
-
-IEnumerator FireBulletAfterAnimation()
-{
-    // Giả định thời gian animation tấn công là 0.5 giây
-    yield return new WaitForSeconds(0.5f);
-
-    // Xác định hướng bắn
-    Vector3 directionToPlayer = (Targetplayer.transform.position - firePoint.position).normalized;
-
-    // Đẩy viên đạn ra xa hơn
-    Vector3 spawnPosition = firePoint.position + firePoint.forward * 0.5f;
-    GameObject bullet = Instantiate(bulletPrefab, spawnPosition, firePoint.rotation);
-
-    // Thêm vận tốc cho viên đạn
-    Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-    if (bulletRb != null)
+    else
     {
-        bulletRb.velocity = directionToPlayer * 30f; // Tăng tốc độ viên đạn
+        // Reset cờ khi không bắn, cho chuỗi bắn mới
+        hasPlayedShootSound = false;
     }
-
 }
 
-
-
-    // Quay mặt quái vật về phía người chơi
+    // Quay mặt enemy về phía người chơi
     void RotateTowardsPlayer()
     {
         Vector3 direction = (Targetplayer.transform.position - transform.position).normalized;
