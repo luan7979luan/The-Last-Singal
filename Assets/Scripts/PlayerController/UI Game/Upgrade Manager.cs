@@ -8,6 +8,8 @@ public class UpgradeUIController : MonoBehaviour
     public GameObject upgradeUIPanel;
     
     public RaycastWeapon raycastWeapon;
+
+     
     public PlayerHealth playerHealth;
     public PlayerExperience playerExperience;
     
@@ -75,10 +77,7 @@ public class UpgradeUIController : MonoBehaviour
                 Cursor.visible = false;
             }
             
-            if (raycastWeapon != null)
-            {
-                raycastWeapon.canFire = !isActive;
-            }
+            
         }
     }
 
@@ -127,6 +126,7 @@ public class UpgradeUIController : MonoBehaviour
             {
                 // Tăng crit chance, ví dụ mỗi lần tăng 5%
                 raycastWeapon.UpgradeCritChance(5f);
+
             }
             playerExperience.UpdateUpgradePointsUI();
         }
@@ -146,4 +146,8 @@ public class UpgradeUIController : MonoBehaviour
             errorText.gameObject.SetActive(false);
         }
     }
+
+
+
+
 }

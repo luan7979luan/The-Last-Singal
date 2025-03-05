@@ -1079,7 +1079,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0041158004, y: -0.0026923385, z: 0.009896604}
+  m_ConnectedAnchor: {x: 0.004115806, y: -0.0026923106, z: 0.009896566}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -2468,7 +2468,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: -1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.027088255, y: 0.0070684236, z: 0.00088036497}
+  m_ConnectedAnchor: {x: -0.02708825, y: 0.0070684515, z: 0.0008803263}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -2636,7 +2636,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.03394753, y: -0.00014486164, z: -0.00014354824}
+  m_ConnectedAnchor: {x: -0.033947542, y: -0.00014483742, z: -0.00014359201}
   serializedVersion: 2
   m_SwingAxis: {x: 1, y: 0, z: 0}
   m_TwistLimitSpring:
@@ -3449,7 +3449,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.004115827, y: -0.002692305, z: -0.009896942}
+  m_ConnectedAnchor: {x: 0.004115821, y: -0.002692332, z: -0.009896904}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: -1}
   m_TwistLimitSpring:
@@ -3689,7 +3689,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: -1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.039931033, y: -0.00000008381903, z: 0.00000023609027}
+  m_ConnectedAnchor: {x: 0.03993103, y: -0.000000035390258, z: 0.00000024959445}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -3856,7 +3856,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: -1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.039931066, y: -0.000000049360096, z: -0.00000015133992}
+  m_ConnectedAnchor: {x: -0.039931055, y: -0.00000008987263, z: -0.00000012619421}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: -1, z: 0}
   m_TwistLimitSpring:
@@ -9293,7 +9293,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.041036528, y: 0.002749423, z: -0.000026386697}
+  m_ConnectedAnchor: {x: -0.04103652, y: 0.002749335, z: -0.00002627261}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -9735,7 +9735,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: -1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.033947542, y: 0.0001447741, z: 0.00014330819}
+  m_ConnectedAnchor: {x: 0.033947516, y: 0.00014490448, z: 0.00014335895}
   serializedVersion: 2
   m_SwingAxis: {x: -1, y: 0, z: 0}
   m_TwistLimitSpring:
@@ -11339,7 +11339,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Increase Player Speed
+  m_text: 'Increase Crit Rate
 
 '
   m_isRightToLeft: 0
@@ -13246,7 +13246,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UpgradeManager, Assembly-CSharp
-        m_MethodName: IncreaseSpeed
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14117,7 +14117,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.021572102, y: 0.0011576861, z: 0.01981637}
+  m_ConnectedAnchor: {x: -0.021572104, y: 0.0011577166, z: 0.019816335}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -15382,7 +15382,7 @@ MonoBehaviour:
   playerExperience: {fileID: 1184299287}
   increaseDamageButton: {fileID: 1673213095}
   increaseHPButton: {fileID: 716833377}
-  increaseCritChanceButton: {fileID: 0}
+  increaseCritChanceButton: {fileID: 1456254471}
   uiToHide:
   - {fileID: 511064449}
   errorText: {fileID: 1841159454}
@@ -15812,7 +15812,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.020313103, y: -0.002130858, z: -0.018270731}
+  m_ConnectedAnchor: {x: -0.020313095, y: -0.0021309475, z: -0.018270615}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: -1}
   m_TwistLimitSpring:
